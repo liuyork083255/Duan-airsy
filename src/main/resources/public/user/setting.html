@@ -3,58 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <title>UserSetting</title>
-
 </head>
 <script src="/airsy/js/datatable/jquery-1.12.4.js"></script>
 <script src="/airsy/js/bootstrap/bootstrap.min.js"></script>
+<script src="/airsy/js/validate/validate.js"></script>
 <body>
-    <h3>修改账号</h3>
 
-    <form>
-        <table style="width: 100%">
-            <tr>
-                <td>
-                    <div class="input-group input-group-sm" style="width: 25%">
-                        <span class="input-group-addon" id="sizing-addon1">用户名</span>
-                        <input type="text" class="form-control" placeholder="username" aria-describedby="sizing-addon1">
-                    </div>
-                </td>
-            </tr>
+    <div class="panel panel-default" >
+        <div class="panel-heading">
+            <h3 class="panel-title" style="background-color: #5BC0DE">
+                用户信息设置
+            </h3>
+        </div>
+        <div class="panel-body" style="background-color: #F7F7F9">
+            <form id="user-form-setting">
+                <table style="width: 100%">
+                    <tr>
+                        <td>
+                            <div class="input-group input-group-sm" style="width: 25%">
+                                <span class="input-group-addon" id="sizing-addon1">用户名</span>
+                                <input id="username" type="text" class="form-control" placeholder="" aria-describedby="sizing-addon1" onblur="focusUsername()">
+                            </div>
+                            <p id="username-error" style="color:red"></p>
+                        </td>
+                    </tr>
 
-            <tr>
-                <td>
-                    <div class="input-group input-group-sm" style="width: 25%">
-                        <span class="input-group-addon" id="sizing-addon3">邮箱</span>
-                        <input type="text" class="form-control" placeholder="email" aria-describedby="sizing-addon3">
-                    </div>
-                </td>
-            </tr>
+                    <tr>
+                        <td>
+                            <div class="input-group input-group-sm" style="width: 25%">
+                                <span class="input-group-addon" id="sizing-addon3">邮箱</span>
+                                <input id="email" type="email" class="form-control" placeholder="" aria-describedby="sizing-addon3" onblur="focusEmail()">
+                            </div>
+                            <p id="email-error" style="color:red"></p>
+                        </td>
+                    </tr>
 
-            <tr>
-                <td>
-                    <div class="input-group input-group-sm" style="width: 25%">
-                        <span class="input-group-addon" id="password1">新 密 码</span>
-                        <input type="text" class="form-control" placeholder="new password" aria-describedby="sizing-addon2">
-                    </div>
-                </td>
-            </tr>
+                    <tr>
+                        <td>
+                            <div class="input-group input-group-sm" style="width: 25%">
+                                <span class="input-group-addon">新 密 码</span>
+                                <input id="password1" type="password" class="form-control" placeholder="" aria-describedby="sizing-addon2">
+                            </div>
+                        </td>
+                    </tr>
 
-            <tr>
-                <td>
-                    <div class="input-group input-group-sm" style="width: 25%">
-                        <span class="input-group-addon" id="password2">确认密码</span>
-                        <input type="text" class="form-control" placeholder="again password" aria-describedby="sizing-addon2">
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </form>
+                    <tr>
+                        <td>
+                            <div class="input-group input-group-sm" style="width: 25%">
+                                <span class="input-group-addon">确认密码</span>
+                                <input id="password2" type="password" class="form-control" placeholder="" aria-describedby="sizing-addon2">
+                            </div>
+                            <p id="password-error" style="color:red"></p>
+                        </td>
+                    </tr>
 
+                    <tr>
+                        <td>
+                            <div>
+                                <button type="button" class="btn btn-success" id="user-form-submit">提交</button>
+                                <button type="reset" class="btn btn-success" id="user-form-clear" onclick="clear()">清空</button>
+                            </div>
+                        </td>
+                    </tr>
 
-
-
-
+                </table>
+            </form>
+        </div>
+    </div>
 
 
 </body>
+<script>
+
+//    焦点触发事件
+function focusUsername(){
+    var username = $("#username").val().trim();
+    if(!$.validateUnnormal(username)){
+        $("#username-error").html("用户名不能为空，且不能包含非法字符");
+        return false;
+    }else {
+        $("#username-error").html("");
+    }
+    return true;
+}
+
+function focusEmail(){
+    var email = $("#email").val().trim();
+    if(!$.validateEmail(email)){
+        $("#email-error").html("邮箱格式不正确");
+        return false;
+    }else{
+        $("#email-error").html("");
+    }
+    return true;
+}
+
+
+function validatePassword(){
+    var password1 = $("#password1").val().trim();
+    var password2 = $("#password2").val().trim();
+    if(password1.length == 0 || password2.length == 0){
+        $("#password-error").html("密码不能为空");
+        return false;
+    }
+
+    if(!$.validatePasswordSimilar(password1,password2)){
+        $("#password-error").html("两次密码不相同");
+        return false;
+    }else{
+        $("#password-error").html("");
+    }
+    return true;
+}
+$("#user-form-submit").click(function () {
+    if(validatePassword() || focusUsername() || focusEmail())
+        return false
+})
+
+
+</script>
 </html>
