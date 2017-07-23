@@ -8,4 +8,14 @@
         SELECT * FROM air_user WHERE username = #{username} AND password = #{password}
     </select>
 
+    <update id="updateUser" parameterType="liu.york.model.UserModel">
+        UPDATE air_user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="username != null">username = #{username},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="email != null">email = #{email},</if>
+        </trim>
+        WHERE userid = #{userid}
+    </update>
+
 </mapper>

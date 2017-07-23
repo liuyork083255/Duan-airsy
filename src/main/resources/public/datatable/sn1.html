@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/airsy/css/datatable/table.css">
+    <link rel="stylesheet" href="/airsy/css/datatable/dataTable.css">
+    <link rel="stylesheet" href="/airsy/css/datatable/buttons.min.css">
+    <link rel="stylesheet" href="/airsy/css/datatable/editor.min.css">
+    <link rel="stylesheet" href="/airsy/css/datatable/select.min.css">
+</head>
+<body>
+<table id="example" class="display" cellspacing="0" width="100%">
+    <thead>
+    <tr>
+        <th>SN编号</th>
+        <th>公司名称</th>
+        <th>工作地点</th>
+    </tr>
+    </thead>
+</table>
+
+<script src="/airsy/js/datatable/jquery-1.12.4.js"></script>
+<script src="/airsy/js/datatable/datatable.js"></script>
+<script src="/airsy/js/datatable/buttons.min.js"></script>
+<script src="/airsy/js/datatable/editor.min.js"></script>
+<script src="/airsy/js/datatable/select.min.js"></script>
+<script src="/airsy/js/my/util.js"></script>
+<script>
+    var editor;
+    var todo;
+
+    $(document).ready(function() {
+        $.ajax({
+            type: "post",
+            url: "/airsy/usd/selectUsdByUserId",
+            dataType: "json",
+            success: function(json){
+                todo = json;
+                initEditor();
+                initDatatable()
+            }
+        });
+
+        function initEditor() {
+            // Set up the editor
+            editor = new $.fn.dataTable.Editor( {
+                table: "#example",
+                idSrc:'snid',
+                fields: [
+                    {
+                        label: "SN编号:",
+                        name: "sn"
+                    },
+                    {
+                        label: "公司名称:",
+                        name: "company"
+                    },
+                    {
+                        label: "工作地点:",
+                        name: "worksite"
+                    }
+                ],
+                ajax: function ( method, url, d, successCallback, errorCallback ) {
+                    var output = { data: [] };
+
+                    if ( d.action === 'create' ) {
+                        var dateKey = +new Date();
+                        $.each( d.data, function (key, value) {
+                            var id = dateKey+''+key;
+                            value.snid = id;
+                            $.ajax({
+                                type: "post",
+                                url: "/airsy/usd/insertUsd",
+                                data:JSON.stringify(value),
+                                contentType:"application/json;charset=utf-8",
+                                dataType: "json",
+                                success: function(json){
+                                    if(json.success){
+
+                                    }else{
+
+                                    }
+                                }
+                            });
+
+
+                            todo[ id ] = value;
+                            output.data.push( value );
+                        });
+                    }
+                    else if ( d.action === 'edit' ) {
+                        // Update each edited item with the data submitted
+                        $.each( d.data, function (id, value) {
+                            console.info(todo[id]);
+                            value.snid = id;
+                            $.extend( todo[id], value );
+                            output.data.push( todo[ id ] );
+                        } );
+                    }
+                    else if ( d.action === 'remove' ) {
+                        // Remove items from the object
+                        $.each( d.data, function (id) {
+                            console.info(id);
+                            delete todo[ id ];
+                        } );
+                    }
+
+                    // Store the latest `todo` object for next reload
+                    localStorage.setItem( 'todo', JSON.stringify(todo) );
+
+                    // Show Editor what has changed
+                    successCallback( output );
+                }
+            } );
+        }
+
+        function initDatatable() {
+            // Initialise the DataTable
+            $('#example').DataTable( {
+                dom: "Bfrtip",
+                data: $.map( todo, function (value, key) {
+                    return value;
+                } ),
+                columns: [
+                    { data: "sn" },
+                    { data: "company" },
+                    { data: "worksite" },
+                ],
+                select: true,
+                buttons: [
+                    { extend: "create", editor: editor },
+                    { extend: "edit",   editor: editor },
+                    { extend: "remove", editor: editor }
+                ]
+            } );
+        }
+
+
+
+    } );
+</script>
+</body>
+</html>

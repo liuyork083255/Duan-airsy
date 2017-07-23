@@ -79,7 +79,7 @@
 
         <p class="forgot"><a href="#">Forgot Password?</a></p>
 
-        <button id="button-login" class="button button-block"/>Log In</button>
+        <button id="button-login" class="button"/>Log In</button>
 
       </form>
 
@@ -90,30 +90,36 @@
 <script src="/airsy/js/login/index.js"></script>
 <script src="/airsy/js/jquery-1.4.4.min.js"></script>
 <script type="text/javascript">
-  $("#button-login").click(function () {
-    var username = $("#username").val();
-    var password = $("#password").val();
-    if(username.length ==0 || password.length ==0)
-      return;
+//  $("#button-login").click(function () {
+//
+//    var form = $('<form method="get" action="/airsy/frame.html"></form>');
+//    form.appendTo('body').submit().remove();
 
-    var usermodel = {};
-    usermodel["username"] = username;
-    usermodel["password"] = password;
 
-    $.ajax({
-      type: "post",
-      url: "/airsy/user/login",
-      data: usermodel,
-      dataType: "json",
-      success: function(json){
-        if(json.success){
-          alert("认证通过！！！");
-        }else{
-          alert("认证失败！！！");
-        }
-      }
-    });
-  });
+
+//    var username = $("#username").val();
+//    var password = $("#password").val();
+//    if(username.length ==0 || password.length ==0)
+//      return;
+//
+//    var usermodel = {};
+//    usermodel["username"] = username;
+//    usermodel["password"] = password;
+//
+//    $.ajax({
+//      type: "post",
+//      url: "/airsy/user/login",
+//      data: usermodel,
+//      dataType: "json",
+//      success: function(json){
+//        if(json.success){
+//          alert("认证通过！！！");
+//        }else{
+//          alert("认证失败！！！");
+//        }
+//      }
+//    });
+//  });
 
 </script>
 </body>

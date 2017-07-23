@@ -1,5 +1,6 @@
 package liu.york;
 
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
@@ -14,7 +15,13 @@ public class AirsyApplication {
 	}
 
 	@RequestMapping("/login")
-	public String index(){
+	public String login(){
+		return "login";
+	}
+
+	@RequestMapping("/signout")
+	public String signout(HttpServletRequest request){
+		request.getSession().removeAttribute("userSession");
 		return "login";
 	}
 
