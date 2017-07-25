@@ -19,4 +19,9 @@ public class UserServiceImpl implements UserService {
     public UserModel selectUserByUP(String username, String password) {
         return userMapper.selectUserByUP(username,password);
     }
+
+    @Override
+    public int updateUser(UserModel userModel) {
+        return userMapper.updateUser(userModel);
+    }
 }

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/airsy/css/datatable/table.css">
+    <link rel="stylesheet" href="/airsy/css/datatable/dataTable.css">
+    <link rel="stylesheet" href="/airsy/css/datatable/buttons.min.css">
+    <link rel="stylesheet" href="/airsy/css/datatable/editor.min.css">
+    <link rel="stylesheet" href="/airsy/css/datatable/select.min.css">
+</head>
+<body>
+<table id="example" class="display" cellspacing="0" width="100%">
+    <thead>
+    <tr>
+        <th>SN编号</th>
+        <th>公司名称</th>
+        <th>工作地点</th>
+    </tr>
+    </thead>
+</table>
+<script src="/airsy/js/datatable/jquery-1.12.4.js"></script>
+<script src="/airsy/js/datatable/datatable.js"></script>
+<script src="/airsy/js/datatable/buttons.min.js"></script>
+<script src="/airsy/js/datatable/editor.min.js"></script>
+<script src="/airsy/js/datatable/select.min.js"></script>
+<script>
+
+    var jsonData;
+
+    $(document).ready(function() {
+        $.ajax({
+          type: "post",
+          url: "/airsy/usd/selectUsdByUserId",
+          dataType: "json",
+          success: function(json){
+            if(json.success){
+                jsonData = json.obj;
+                editorInit();
+                bindData();
+            }else{
+              alert(json.msg);
+            }
+          }
+        });
+    } );
+
+    function editorInit() {
+        editor = new $.fn.dataTable.Editor( {
+            ajax: {
+                create: {
+                    type: 'POST',
+                    url:  '/airsy/usd/insertUsd'
+                },
+                edit: {
+                    type: 'POST',
+                    url:  '../php/rest/edit.php?id=_id_'
+                },
+                remove: {
+                    type: 'POST',
+                    url:  '../php/rest/remove.php?id=_id_'
+                }
+            },
+            table: "#example",
+            idSrc:'snid',
+            fields: [ {
+                label: "SN编号:",
+                name: "sn"
+            }, {
+                label: "公司名称:",
+                name: "company"
+            }, {
+                label: "工作地点:",
+                name: "worksite"
+            }
+            ]
+        } );
+    }
+
+    function bindData() {
+        $('#example').DataTable( {
+            dom: "Bfrtip",
+            data:jsonData,
+            idSrc:'snid',
+            columns: [
+                { data: "sn"},
+                { data: "company" },
+                { data: "worksite" }
+            ],
+            select: true,
+            buttons: [
+                { extend: "create", editor: editor },
+                { extend: "edit",   editor: editor },
+                { extend: "remove", editor: editor }
+            ]
+        } );
+    }
+
+
+</script>
+</body>
+</html>

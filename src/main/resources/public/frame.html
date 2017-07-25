@@ -30,7 +30,7 @@
             <a class="nav-link" href="#">Settings</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">退出</a>
+            <a class="nav-link" href="#" id="signout">退出</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">帮助</a>
@@ -78,6 +78,10 @@
     $("#frame-div").load("user/setting.html");
   })
 
+  $("#signout").click(function () {
+    var form = $('<form method="get" action="/airsy/signout"></form>');
+    form.appendTo('body').submit().remove();
+  });
 
 </script>
 </html>

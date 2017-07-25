@@ -7,4 +7,5 @@ import liu.york.model.UserModel;
  */
 public interface UserService {
     UserModel selectUserByUP(String username, String password);
+    int updateUser(UserModel userModel);
 }

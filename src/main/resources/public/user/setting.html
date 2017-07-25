@@ -74,6 +74,24 @@
 
 </body>
 <script>
+    $.ajax({
+        type: "post",
+        url: "/airsy/user/getUserInfo",
+        dataType: "json",
+        success: function(json){
+            if(json.success){
+                $("#username").val(json.obj.username);
+                $("#email").val(json.obj.email);
+
+            }else{
+
+            }
+        }
+    });
+
+
+
+
 
 //    焦点触发事件
 function focusUsername(){
@@ -115,10 +133,40 @@ function validatePassword(){
     }
     return true;
 }
+
 $("#user-form-submit").click(function () {
-    if(validatePassword() || focusUsername() || focusEmail())
-        return false
+    if(!validatePassword() || !focusUsername() || !focusEmail())
+        return false;
+
+    var userModel = {};
+    userModel["username"] = $("#username").val().trim();
+    userModel["email"] = $("#email").val().trim();
+    userModel["password"] = $("#password2").val().trim();
+
+
+    $.ajax({
+        type: "post",
+        url: "/airsy/user/updateUser",
+        data: JSON.stringify(userModel),
+        dataType: "json",
+        contentType : "application/json;charset=utf-8",
+        success: function(json){
+            if(json.success){
+                alert("更改成功");
+            }else{
+                alert("更改失败");
+            }
+        }
+    });
+
+
+
+
 })
+
+
+
+
 
 
 </script>
