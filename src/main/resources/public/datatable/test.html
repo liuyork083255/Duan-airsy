@@ -81,10 +81,20 @@
     </tr>
     </tbody>
 </table>
+<input type="button" value="addRow" id="addRow"/>
 <script src="/airsy/js/datatable/jquery-1.12.4.js"></script>
 <script src="/airsy/js/datatable/datatable.js"></script>
 <script>
-    $('#example').DataTable();
+
+    var t = $('#example').DataTable();
+    var counter = 1;
+
+    $('#addRow').click(function () {
+
+        console.info(t.rows(0).data);
+    } );
+
+
 </script>
 </body>
 </html>
