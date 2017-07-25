@@ -64,28 +64,26 @@
                     var output = { data: [] };
 
                     if ( d.action === 'create' ) {
-                        var dateKey = +new Date();
                         $.each( d.data, function (key, value) {
-                            var id = dateKey+''+key;
-                            value.snid = id;
+                            var uuid = $.getUUID();
+                            value.snid = uuid;
                             $.ajax({
                                 type: "post",
                                 url: "/airsy/usd/insertUsd",
-                                data:JSON.stringify(value),
                                 contentType:"application/json;charset=utf-8",
+                                data:JSON.stringify(value),
                                 dataType: "json",
                                 success: function(json){
                                     if(json.success){
-
+                                        todo[uuid] = value;
+                                        output.data.push(value);
+                                        successCallback(output);
                                     }else{
-
+                                        alert(json.msg);
+                                        successCallback(output);
                                     }
                                 }
                             });
-
-
-                            todo[ id ] = value;
-                            output.data.push( value );
                         });
                     }
                     else if ( d.action === 'edit' ) {
@@ -96,6 +94,7 @@
                             $.extend( todo[id], value );
                             output.data.push( todo[ id ] );
                         } );
+                        successCallback(output);
                     }
                     else if ( d.action === 'remove' ) {
                         // Remove items from the object
@@ -103,13 +102,11 @@
                             console.info(id);
                             delete todo[ id ];
                         } );
+                        successCallback(output);
                     }
 
-                    // Store the latest `todo` object for next reload
-                    localStorage.setItem( 'todo', JSON.stringify(todo) );
+//                    localStorage.setItem( 'todo', JSON.stringify(todo) );
 
-                    // Show Editor what has changed
-                    successCallback( output );
                 }
             } );
         }

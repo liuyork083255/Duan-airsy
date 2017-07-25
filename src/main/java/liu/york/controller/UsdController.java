@@ -46,9 +46,26 @@ public class UsdController {
 
     @ResponseBody
     @RequestMapping("/insertUsd")
-    public void insertUsd(@RequestBody UsdModel usdModel){
-        System.out.println(usdModel);
+    public JsonModel insertUsd(@RequestBody UsdModel usdModel, HttpServletRequest request){
+        JsonModel json = new JsonModel();
+
+        if(usdModel == null){
+            json.setSuccess(false);
+            json.setMsg("获取参数失败");
+            return json;
+        }
+
+//        UserModel userSession = (UserModel)request.getSession().getAttribute("userSession");
+//        usdModel.setUserid(userSession.getUserid());
+
+        usdModel.setUserid("1");
+
+        int i = usdService.insertUsd(usdModel);
+        if(i == 1){
+            json.setSuccess(true);
+        }else{
+            json.setSuccess(false);
+        }
+        return json;
     }
-
-
 }

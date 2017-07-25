@@ -4,17 +4,17 @@ package liu.york.model;
  * Created by Administrator on 2017/7/22.
  */
 public class UsdModel {
-    private int snid;
+    private String snid;
     private String company;
     private String worksite;
     private String sn;
-    private int userid;
+    private String userid;
 
-    public int getSnid() {
+    public String getSnid() {
         return snid;
     }
 
-    public void setSnid(int snid) {
+    public void setSnid(String snid) {
         this.snid = snid;
     }
 
@@ -42,11 +42,11 @@ public class UsdModel {
         this.sn = sn;
     }
 
-    public int getUserid() {
+    public String getUserid() {
         return userid;
     }
 
-    public void setUserid(int userid) {
+    public void setUserid(String userid) {
         this.userid = userid;
     }
 }
