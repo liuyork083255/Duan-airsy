@@ -4,7 +4,7 @@ package liu.york.model;
  * Created by Administrator on 2017/7/22.
  */
 public class DataModel {
-    private int dataid;
+    private String dataid;
     private String pmtwo;
     private String pmten;
     private String noise;
@@ -12,13 +12,13 @@ public class DataModel {
     private String direction;
     private String temperature;
     private String humidity;
-    private int snid;
+    private String snid;
 
-    public int getDataid() {
+    public String getDataid() {
         return dataid;
     }
 
-    public void setDataid(int dataid) {
+    public void setDataid(String dataid) {
         this.dataid = dataid;
     }
 
@@ -78,11 +78,11 @@ public class DataModel {
         this.humidity = humidity;
     }
 
-    public int getSnid() {
+    public String getSnid() {
         return snid;
     }
 
-    public void setSnid(int snid) {
+    public void setSnid(String snid) {
         this.snid = snid;
     }
 }

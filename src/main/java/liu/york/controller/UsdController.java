@@ -5,6 +5,7 @@ import liu.york.model.JsonModel;
 import liu.york.model.UsdModel;
 import liu.york.model.UserModel;
 import liu.york.service.UsdService;
+import liu.york.service.UserService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,8 @@ public class UsdController {
 
     @Autowired
     private UsdService usdService;
+    @Autowired
+    private UserService userService;
 
     @ResponseBody
     @RequestMapping("/selectUsdByUserId")
@@ -63,8 +66,61 @@ public class UsdController {
         int i = usdService.insertUsd(usdModel);
         if(i == 1){
             json.setSuccess(true);
+            json.setObj(usdModel);
         }else{
             json.setSuccess(false);
+        }
+        return json;
+    }
+
+    @ResponseBody
+    @RequestMapping("/updateUsd")
+    public JsonModel updateUsd(@RequestBody UsdModel usdModel){
+        JsonModel json = new JsonModel();
+        if(usdModel == null){
+            json.setSuccess(false);
+            json.setMsg("get param fail");
+            return json;
+        }
+
+        int i = usdService.updateUsd(usdModel);
+        if(i == 1){
+            json.setSuccess(true);
+        }else{
+            json.setSuccess(false);
+            json.setMsg("update fail");
+        }
+        return json;
+    }
+
+    @ResponseBody
+    @RequestMapping("/deleteUsd")
+    public JsonModel deleteUsd(String snid, String password, HttpServletRequest request){
+        JsonModel json = new JsonModel();
+        if(snid == null || password == null){
+            json.setSuccess(false);
+            json.setMsg("get param fail");
+            return json;
+        }
+
+//        UserModel userSession = (UserModel)request.getSession().getAttribute("userSession");
+
+//        UserModel userModel = userService.selectUserByUP(userSession.getUsername(), password);
+        UserModel userModel = userService.selectUserByUP("root", password);
+
+        if(userModel == null){
+            json.setSuccess(false);
+            json.setMsg("password is wrong");
+            return json;
+        }
+
+        int i = usdService.deleteUsd(snid);
+
+        if(i == 1){
+            json.setSuccess(true);
+        }else{
+            json.setSuccess(false);
+            json.setMsg("delete fail");
         }
         return json;
     }

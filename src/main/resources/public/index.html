@@ -1,127 +1,46 @@
 <!DOCTYPE html>
-<html >
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Sign-Up/Login Form</title>
-  <link rel="stylesheet" href="/airsy/css/login/style.css">
-
-
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
+<script>
+    //弹出对话框并输出一段提示信息
+    function ale() {
+        //弹出一个对话框
+        alert("提示信息！");
 
-<body>
-<div class="form">
+    }
 
-  <ul class="tab-group">
-    <li class="tab active"><a href="#signup">注册</a></li>
-    <li class="tab"><a href="#login">登陆</a></li>
-  </ul>
-
-  <!--注册div-->
-  <div class="tab-content">
-    <div id="signup">
-      <h1>Sign Up for Free</h1>
-      <form action="/" method="post">
-        <div class="top-row">
-          <div class="field-wrap">
-            <label>
-              用户名<span class="req">*</span>
-            </label>
-            <input type="text" required autocomplete="off" />
-          </div>
-
-          <div class="field-wrap">
-            <label>
-              密码<span class="req">*</span>
-            </label>
-            <input type="password"required autocomplete="off"/>
-          </div>
-        </div>
-
-        <div class="field-wrap">
-          <label>
-            Email Address<span class="req">*</span>
-          </label>
-          <input type="email"required autocomplete="off"/>
-        </div>
-
-        <div class="field-wrap">
-          <label>
-            邀请码<span class="req">*</span>
-          </label>
-          <input type="text"required autocomplete="off"/>
-        </div>
-
-        <button type="submit" class="button button-block"/>Get Started</button>
-      </form>
-    </div>
-
-
-    <!--登陆div-->
-    <div id="login">
-      <h1>Welcome Back!</h1>
-
-      <form action="#">
-
-        <div class="field-wrap">
-          <label>
-            用户名<span class="req">*</span>
-          </label>
-          <input id="username" type="text"required autocomplete="off"/>
-        </div>
-
-        <div class="field-wrap">
-          <label>
-            密码<span class="req">*</span>
-          </label>
-          <input id="password" type="password"required autocomplete="off"/>
-        </div>
-
-        <p class="forgot"><a href="#">Forgot Password?</a></p>
-
-        <button id="button-login" class="button button-block"/>Log In</button>
-
-      </form>
-
-    </div>
-  </div>
-</div>
-<script src='/airsy/js/login/jquery.min.js'></script>
-<script src="/airsy/js/login/index.js"></script>
-<script src="/airsy/js/jquery-1.4.4.min.js"></script>
-<script type="text/javascript">
-  $("#button-login").click(function () {
-    var username = $("#username").val();
-    var password = $("#password").val();
-    if(username.length ==0 || password.length ==0)
-      return;
-
-    var usermodel = {};
-    usermodel["username"] = username;
-    usermodel["password"] = password;
-
-    $.ajax({
-      type: "post",
-      url: "/airsy/user/login",
-      data: usermodel,
-      dataType: "json",
-      success: function(json){
-        if(json.success){
-          alert("认证通过！！！");
-        }else{
-          alert("认证失败！！！");
+    //弹出一个询问框，有确定和取消按钮
+    function firm() {
+        //利用对话框返回的值 （true 或者 false）
+        if (confirm("你确定提交吗？")) {
+            alert("点击了确定");
         }
-      }
-    });
-  });
+        else {
+            alert("点击了取消");
+        }
 
+    }
 
+    //弹出一个输入框，输入一段文字，可以提交
+    function prom() {
+        var name = prompt("请输入您的名字", ""); //将输入的内容赋给变量 name ，
+
+        //这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值
+        if (name)//如果返回的有内容
+        {
+            alert("欢迎您：" + name)
+        }
+
+    }
 
 
 </script>
-
-
-
-
-
+<body>
+<button id="button1" onclick="ale();">提示信息</button>
+<button id="button2" onclick="firm();">你确定提交</button>
+<button id="button3" onclick="prom();">请输入您的名字</button>
 </body>
 </html>

@@ -4,18 +4,18 @@ package liu.york.model;
  * Created by Administrator on 2017/7/16.
  */
 public class UserModel {
-    private int userid;
+    private String userid;
     private String username;
     private String password;
     private String email;
     private String priority;
     private String info;
 
-    public int getUserid() {
+    public String getUserid() {
         return userid;
     }
 
-    public void setUserid(int userid) {
+    public void setUserid(String userid) {
         this.userid = userid;
     }
 

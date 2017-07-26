@@ -8,5 +8,23 @@
         SELECT * FROM air_usd WHERE userid = #{userid,jdbcType=INTEGER}
     </select>
 
+    <insert id="insertUsd" parameterType="liu.york.model.UsdModel">
+        INSERT INTO air_usd VALUES (#{snid},#{company},#{worksite},#{sn},#{userid})
+    </insert>
+
+    <update id="updateUsd" parameterType="liu.york.model.UsdModel">
+        UPDATE air_usd
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userid != null">userid = #{userid},</if>
+            <if test="sn != null">sn = #{sn},</if>
+            <if test="company != null">company = #{company},</if>
+            <if test="worksite != null">worksite = #{worksite},</if>
+        </trim>
+        WHERE snid = #{snid}
+    </update>
+
+    <delete id="deleteUsd">
+        DELETE FROM air_usd WHERE snid = #{snid}
+    </delete>
 
 </mapper>

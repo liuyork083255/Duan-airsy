@@ -75,40 +75,81 @@
                                 dataType: "json",
                                 success: function(json){
                                     if(json.success){
-                                        todo[uuid] = value;
-                                        output.data.push(value);
+                                        todo[uuid] = json.obj;
+                                        output.data.push(json.obj);
                                         successCallback(output);
                                     }else{
                                         alert(json.msg);
-                                        successCallback(output);
                                     }
                                 }
                             });
                         });
+                        successCallback(output);
                     }
                     else if ( d.action === 'edit' ) {
                         // Update each edited item with the data submitted
                         $.each( d.data, function (id, value) {
-                            console.info(todo[id]);
+
+                            value.userid = todo[id].userid;
                             value.snid = id;
-                            $.extend( todo[id], value );
-                            output.data.push( todo[ id ] );
+
+                            $.ajax({
+                                type: "post",
+                                url: "/airsy/usd/updateUsd",
+                                contentType:"application/json;charset=utf-8",
+                                data:JSON.stringify(value),
+                                dataType: "json",
+                                success: function(json){
+                                    if(json.success){
+                                        $.extend( todo[id], value );
+                                        output.data.push( todo[id] );
+                                        successCallback(output);
+                                    }else{
+                                        alert(json.msg);
+                                    }
+                                }
+                            });
+                            successCallback(output);
                         } );
-                        successCallback(output);
                     }
                     else if ( d.action === 'remove' ) {
-                        // Remove items from the object
-                        $.each( d.data, function (id) {
-                            console.info(id);
-                            delete todo[ id ];
-                        } );
                         successCallback(output);
+                        $.each( d.data, function (id) {
+                            if(confirm("你确定要删除吗？")){
+                                var password = prompt("由于该操作是不可恢复操作，请输入密码！", "");
+                                if (password){
+                                    $.ajax({
+                                        type: "post",
+                                        url: "/airsy/usd/deleteUsd",
+                                        data:"snid="+id + "&password=" + password,
+                                        dataType: "json",
+                                        success: function(json){
+                                            if(json.success){
+                                                console.info(id);
+//                                                delete todo[id];
+//                                                successCallback(output);
+                                            }else{
+                                                alert(json.msg);
+                                                successCallback(output);
+                                            }
+                                        }
+                                    });
+                                }else
+                                    successCallback(output);
+                            }else
+                                successCallback(output);
+                        } );
                     }
-
-//                    localStorage.setItem( 'todo', JSON.stringify(todo) );
-
                 }
             } );
+
+            editor.on('preSubmit',function (e,o,action) {
+                if(action === 'remove'){
+                    console.info("hello")
+                    this.close();
+                }
+            })
+
         }
 
         function initDatatable() {
@@ -127,7 +168,12 @@
                 buttons: [
                     { extend: "create", editor: editor },
                     { extend: "edit",   editor: editor },
-                    { extend: "remove", editor: editor }
+                    { extend: "remove", editor: editor,
+                        formButtons: [
+                            'Delete',
+                            { label: 'Cancel', fn: function () { this.close(); } }
+                        ]
+                    }
                 ]
             } );
         }

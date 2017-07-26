@@ -9,4 +9,7 @@ import java.util.List;
  */
 public interface UsdService {
     List<UsdModel> selectUsdByUserId(int userid);
+    int insertUsd(UsdModel usdModel);
+    int updateUsd(UsdModel usdModel);
+    int deleteUsd(String snid);
 }

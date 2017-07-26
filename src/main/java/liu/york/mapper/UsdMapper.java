@@ -12,4 +12,7 @@ import java.util.List;
 @Repository
 public interface UsdMapper {
     List<UsdModel> selectUsdByUserId(@Param("userid")int userid);
+    int insertUsd(UsdModel usdModel);
+    int updateUsd(UsdModel usdModel);
+    int deleteUsd(@Param("snid") String snid);
 }
