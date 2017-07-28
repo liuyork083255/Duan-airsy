@@ -48,7 +48,10 @@
               <a class="nav-link active" href="#">菜单 <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">SN</a>
+              <a id="menu-sn-data-show" class="nav-link" href="#">数据查看</a>
+            </li>
+            <li class="nav-item">
+              <a id="menu-sn-setting" class="nav-link" href="#">SN 设置</a>
             </li>
             <li class="nav-item">
               <a id="memu-user-setting" class="nav-link" href="#">账号设置</a>
@@ -74,9 +77,15 @@
   <script src="/airsy/js/bootstrap/bootstrap.min.js"></script>
 <script>
   $("#memu-user-setting").click(function () {
-    $("#frame-theme").html("账号设置")
+    $("#frame-theme").html("账号设置");
     $("#frame-div").load("user/setting.html");
   })
+
+  $("#menu-sn-setting").click(function () {
+    $("#frame-theme").html("SN 列表");
+    $("#frame-div").load("datatable/sn.html");
+  });
+
 
   $("#signout").click(function () {
     var form = $('<form method="get" action="/airsy/signout"></form>');

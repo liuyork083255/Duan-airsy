@@ -52,6 +52,8 @@ public class UsdController {
     public JsonModel insertUsd(@RequestBody UsdModel usdModel, HttpServletRequest request){
         JsonModel json = new JsonModel();
 
+        System.out.println(JSON.toJSONString(usdModel));
+
         if(usdModel == null){
             json.setSuccess(false);
             json.setMsg("获取参数失败");
@@ -95,25 +97,13 @@ public class UsdController {
 
     @ResponseBody
     @RequestMapping("/deleteUsd")
-    public JsonModel deleteUsd(String snid, String password, HttpServletRequest request){
+    public JsonModel deleteUsd(String snid){
         JsonModel json = new JsonModel();
-        if(snid == null || password == null){
+        if(snid == null){
             json.setSuccess(false);
             json.setMsg("get param fail");
             return json;
         }
-
-//        UserModel userSession = (UserModel)request.getSession().getAttribute("userSession");
-
-//        UserModel userModel = userService.selectUserByUP(userSession.getUsername(), password);
-        UserModel userModel = userService.selectUserByUP("root", password);
-
-        if(userModel == null){
-            json.setSuccess(false);
-            json.setMsg("password is wrong");
-            return json;
-        }
-
         int i = usdService.deleteUsd(snid);
 
         if(i == 1){

@@ -5,7 +5,7 @@
 <mapper namespace="liu.york.mapper.UsdMapper">
 
     <select id="selectUsdByUserId" resultType="liu.york.model.UsdModel">
-        SELECT * FROM air_usd WHERE userid = #{userid,jdbcType=INTEGER}
+        SELECT * FROM air_usd WHERE userid = #{userid}
     </select>
 
     <insert id="insertUsd" parameterType="liu.york.model.UsdModel">

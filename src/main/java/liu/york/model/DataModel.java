@@ -13,6 +13,7 @@ public class DataModel {
     private String temperature;
     private String humidity;
     private String snid;
+    private String datetime;
 
     public String getDataid() {
         return dataid;
@@ -84,5 +85,13 @@ public class DataModel {
 
     public void setSnid(String snid) {
         this.snid = snid;
+    }
+
+    public String getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(String datetime) {
+        this.datetime = datetime;
     }
 }

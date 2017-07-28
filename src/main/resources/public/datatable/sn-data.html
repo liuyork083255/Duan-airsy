@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/airsy/css/datatable/table.css">
+    <link rel="stylesheet" href="/airsy/css/datatable/dataTable.css">
+</head>
+<body>
+<div>
+    <table>
+        <tr>
+            <td>刷新时间:</td>
+            <td><div id="div_refresh_time"></div></td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+            <td>刷新状态:</td>
+            <td><div id="div_refresh_state"></div></td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+            <td>当前时间:</td>
+            <td><div id="div_refresh_current_time"></div></td>
+        </tr>
+    </table>
+</div>
+
+<hr/>
+
+<div id="father_login_error">
+    <div id="login_error" style="text-align: center" >
+        <table id="example" class="display" cellspacing="0" width="100%"></table>
+    </div>
+</div>
+
+<script src="/airsy/js/datatable/jquery-1.12.4.js"></script>
+<script src="/airsy/js/datatable/jquery-1.12.4.js"></script>
+<script src="/airsy/js/datatable/datatable.js"></script>
+<script>
+
+    //获取当前时间
+    function getCurrnetTime() {
+        var d=new Date();
+        return d.toLocaleTimeString();
+    }
+
+    //    setInterval("getData()",1000*5); //refresh per 5 minute
+    function getData() {
+        $("#father_login_error div").remove();
+        var table = $("<table id='example' class='display' cellspacing='0' width='100%'></table>");
+        var div = $('<div id="login_error" style="text-align: center"></div>');
+        div.append(table);
+        $("#father_login_error").append(div);
+
+        $.ajax({
+            type: "post",
+            url: "/airsy/data/selectDataBySNid",
+            data:"snid="+1,
+            success: function(json){
+                if(json.success){
+                    var data = json.obj;
+
+                    $(document).ready(function() {
+                        $('#example').dataTable( {
+                            "order": [ 7, 'desc' ],
+                            //当处理大数据时，延迟渲染数据，有效提高Datatables处理能力
+                            "deferRender": true,
+                            "pageLength":25,
+                            "columnDefs":[
+                                {"title":"PM2.0","targets":0},
+                                {"title":"PM10.0","targets":1},
+                                {"title":"噪音","targets":2},
+                                {"title":"风速","targets":3},
+                                {"title":"风向","targets":4},
+                                {"title":"温度","targets":5},
+                                {"title":"湿度","targets":6},
+                                {"title":"时间","targets":7},
+                            ],
+                            "data": data,
+                            "columns": [
+                                { "data": "pmtwo" },
+                                { "data": "pmten" },
+                                { "data": "noise" },
+                                { "data": "speed"},
+                                { "data": "direction"},
+                                { "data": "temperature"},
+                                { "data": "humidity" },
+                                { "data": "datetime" },
+                            ]
+                        } );
+                    } );
+
+                    $("#div_refresh_time").html("<div style='color:green'>"+getCurrnetTime()+"</div>");
+                    $("#div_refresh_state").html("<div style='color:green'>Success</div>");
+                }else{
+                    $("#div_refresh_time").html("<div style='color:red'>"+getCurrnetTime()+"</div>");
+                    $("#div_refresh_state").html("<div style='color:red'>获取数据失败</div>");
+                }
+            },
+            error:function (a,b,c) {
+                console.info(a);
+                console.info(b);
+                console.info(c);
+                $("#div_refresh_time").html("<div style='color:red'>"+getCurrnetTime()+"</div>");
+                $("#div_refresh_state").html("<div style='color:red'>False</div>");
+            }
+        });
+    }
+    getData();
+    setInterval("getData()",1000*60*5); //refresh per 5 minute
+
+    //显示时间
+    var currentTime = self.setInterval("clock()",1000);
+    function clock(){
+        $("#div_refresh_current_time").html("<div style='color:blue'>"+getCurrnetTime()+"</div>");
+    }
+</script>
+</body>
+</html>

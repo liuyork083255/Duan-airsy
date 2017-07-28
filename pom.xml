@@ -86,6 +86,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
+				</configuration>
 				<dependencies>
 					<!--这个依赖必须结合上面的插件使用，也就是每次启动项目的时候用这个插件启动，修改代码后每次要重新编译 Ctrl+Shift+F9 -->
 					<dependency>
