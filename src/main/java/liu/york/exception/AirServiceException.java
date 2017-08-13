@@ -7,4 +7,6 @@ public class AirServiceException extends RuntimeException {
     public AirServiceException(String msg){
         super(msg);
     }
+
+
 }

@@ -12,12 +12,35 @@
 <div class="form">
 
   <ul class="tab-group">
-    <li class="tab active" id="index_register"><a href="#signup">注册</a></li>
-    <li class="tab" id="idnex_login"><a href="#login">登陆</a></li>
+    <li class="tab active" id="idnex_login"><a href="#login">登陆</a></li>
+    <li class="tab" id="index_register"><a href="#signup">注册</a></li>
   </ul>
+
+
 
   <!--注册div-->
   <div class="tab-content">
+    <!--登陆div-->
+    <div id="login">
+      <div>
+        <h1>Welcome Back!</h1>
+        <form action="javascript:;" id="test">
+          <div class="field-wrap">
+            <label>用户名<span class="req">*</span></label>
+            <input id="username" type="text"required autocomplete="off"/>
+          </div>
+          <div class="field-wrap">
+            <label>密码<span class="req">*</span></label>
+            <input id="password" type="password"required autocomplete="off"/>
+          </div>
+          <p class="forgot"><a href="javascript:;" onclick="forget_password()">Forgot Password?</a></p>
+          <button class="button button-block" onclick="login()" />登陆</button>
+        </form>
+      </div>
+
+    </div>
+
+    <!--注册div-->
     <div id="signup">
       <h1>Sign Up for Free</h1>
       <form action="/" method="post">
@@ -56,24 +79,27 @@
       </form>
     </div>
 
+    <!--找回密码div-->
+    <!--<div id="forget" hidden="hidden">-->
+      <!--<h1>邮箱验证</h1>-->
+      <!--<form action="javascript:;">-->
+        <!--<div class="field-wrap">-->
+          <!--<label>邮箱地址<span class="req">*</span></label>-->
+          <!--<input id="forget_email" type="email" required autocomplete="off"/>-->
+          <!--<button class="button button-block" />发送验证码</button>-->
+        <!--</div>-->
+        <!--<div class="field-wrap">-->
+          <!--<label>密码<span class="req">*</span></label>-->
+          <!--<input id="forget_password1" type="password"required autocomplete="off"/>-->
+        <!--</div>-->
+        <!--<div class="field-wrap">-->
+          <!--<label>密码<span class="req">*</span></label>-->
+          <!--<input id="forget_password2" type="password"required autocomplete="off"/>-->
+        <!--</div>-->
+        <!--<button class="button button-block" onclick="login()" />提交</button>-->
+      <!--</form>-->
+    <!--</div>-->
 
-    <!--登陆div-->
-    <div id="login">
-      <h1>Welcome Back!</h1>
-
-      <form action="javascript:;">
-        <div class="field-wrap">
-          <label>用户名<span class="req">*</span></label>
-          <input id="username" type="text"required autocomplete="off"/>
-        </div>
-        <div class="field-wrap">
-          <label>密码<span class="req">*</span></label>
-          <input id="password" type="password"required autocomplete="off"/>
-        </div>
-        <button class="button button-block" onclick="login()" />登陆</button>
-      </form>
-      <p class="forgot"><a href="javascript:;" onclick="forget_password()">Forgot Password?</a></p>
-    </div>
   </div>
 </div>
 <script src='/airsy/js/login/jquery.min.js'></script>
@@ -82,8 +108,16 @@
 <script src="/airsy/js/md5.js"></script>
 <script type="text/javascript">
 
+  var test = $('<div class="field-wrap"> <label>用户名<span class="req">*</span></label><input id="usernametest" type="text"required autocomplete="off"/> </div>')
+
+  $(function () {
+//    $("#forget").hide();
+  })
+
+
   function login() {
-    loginAdmin();
+    $("#test").append(test);
+//    loginAdmin();
   }
 
 

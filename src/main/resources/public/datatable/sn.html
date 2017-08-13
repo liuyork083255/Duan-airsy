@@ -13,6 +13,7 @@
     <thead>
     <tr>
         <th>SN编号</th>
+        <th>SN名称</th>
         <th>公司名称</th>
         <th>工作地点</th>
     </tr>
@@ -36,9 +37,13 @@
             url: "/airsy/usd/selectUsdByUserId",
             dataType: "json",
             success: function(json){
-                todo = json;
-                initEditor();
-                initDatatable()
+                if(json.success){
+                    todo = json.obj;
+                    initEditor();
+                    initDatatable()
+                }else{
+                    alert(json.msg);
+                }
             }
         });
 
@@ -51,6 +56,10 @@
                     {
                         label: "SN编号:",
                         name: "sn"
+                    },
+                    {
+                        label: "SN名称:",
+                        name: "snname"
                     },
                     {
                         label: "公司名称:",
@@ -110,7 +119,6 @@
                                     }
                                 }
                             });
-                            successCallback(output);
                         } );
                     }
                     else if ( d.action === 'remove' ) {
@@ -148,6 +156,7 @@
                 } ),
                 columns: [
                     { data: "sn" },
+                    { data: "snname" },
                     { data: "company" },
                     { data: "worksite" },
                 ],

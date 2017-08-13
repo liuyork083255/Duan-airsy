@@ -9,6 +9,7 @@ public class UsdModel {
     private String worksite;
     private String sn;
     private String userid;
+    private String snname;
 
     public String getSnid() {
         return snid;
@@ -48,5 +49,13 @@ public class UsdModel {
 
     public void setUserid(String userid) {
         this.userid = userid;
+    }
+
+    public String getSnname() {
+        return snname;
+    }
+
+    public void setSnname(String snname) {
+        this.snname = snname;
     }
 }

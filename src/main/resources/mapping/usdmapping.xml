@@ -9,7 +9,7 @@
     </select>
 
     <insert id="insertUsd" parameterType="liu.york.model.UsdModel">
-        INSERT INTO air_usd VALUES (#{snid},#{company},#{worksite},#{sn},#{userid})
+        INSERT INTO air_usd VALUES (#{snid},#{company},#{worksite},#{sn},#{userid},#{snname})
     </insert>
 
     <update id="updateUsd" parameterType="liu.york.model.UsdModel">
@@ -19,6 +19,7 @@
             <if test="sn != null">sn = #{sn},</if>
             <if test="company != null">company = #{company},</if>
             <if test="worksite != null">worksite = #{worksite},</if>
+            <if test="snname != null">snname = #{snname},</if>
         </trim>
         WHERE snid = #{snid}
     </update>
@@ -26,5 +27,10 @@
     <delete id="deleteUsd">
         DELETE FROM air_usd WHERE snid = #{snid}
     </delete>
+
+
+    <select id="getAllSnName" parameterType="java.lang.String" resultType="liu.york.model.UsdIdNameModel">
+        SELECT `snid`,`snname` FROM air_usd WHERE userid = #{userid}
+    </select>
 
 </mapper>

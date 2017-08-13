@@ -2,6 +2,7 @@ package liu.york.controller;
 
 import com.alibaba.fastjson.JSON;
 import liu.york.model.JsonModel;
+import liu.york.model.UsdIdNameModel;
 import liu.york.model.UsdModel;
 import liu.york.model.UserModel;
 import liu.york.service.UsdService;
@@ -34,8 +35,7 @@ public class UsdController {
     public Object selectUsdByUserId(HttpServletRequest request){
         JsonModel jsonModel = new JsonModel();
         UserModel sessionUser = (UserModel)request.getSession().getAttribute("userSession");
-//        List<UsdModel> usdModels = usdService.selectUsdByUserId(sessionUser.getUserid());
-        List<UsdModel> usdModels = usdService.selectUsdByUserId(1);
+        List<UsdModel> usdModels = usdService.selectUsdByUserId(sessionUser.getUserid());
 
         Map<String,UsdModel> map = new HashMap<>();
         usdModels.forEach((model) -> {
@@ -43,13 +43,13 @@ public class UsdController {
         });
 
         jsonModel.setSuccess(true);
-        jsonModel.setObj(usdModels);
-        return map;
+        jsonModel.setObj(map);
+        return jsonModel;
     }
 
     @ResponseBody
     @RequestMapping("/insertUsd")
-    public JsonModel insertUsd(@RequestBody UsdModel usdModel, HttpServletRequest request){
+    public JsonModel insertUsd(@RequestBody UsdModel usdModel,HttpServletRequest request){
         JsonModel json = new JsonModel();
 
         System.out.println(JSON.toJSONString(usdModel));
@@ -60,10 +60,8 @@ public class UsdController {
             return json;
         }
 
-//        UserModel userSession = (UserModel)request.getSession().getAttribute("userSession");
-//        usdModel.setUserid(userSession.getUserid());
-
-        usdModel.setUserid("1");
+        UserModel userSession = (UserModel)request.getSession().getAttribute("userSession");
+        usdModel.setUserid(userSession.getUserid());
 
         int i = usdService.insertUsd(usdModel);
         if(i == 1){
@@ -112,6 +110,18 @@ public class UsdController {
             json.setSuccess(false);
             json.setMsg("delete fail");
         }
+        return json;
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/getAllSnName")
+    public JsonModel getAllSnName(HttpServletRequest request){
+        JsonModel json = new JsonModel();
+        UserModel userSession = (UserModel)request.getSession().getAttribute("userSession");
+        List<UsdIdNameModel> allSnName = usdService.getAllSnName(userSession.getUserid());
+        json.setObj(allSnName);
+        json.setSuccess(true);
         return json;
     }
 }

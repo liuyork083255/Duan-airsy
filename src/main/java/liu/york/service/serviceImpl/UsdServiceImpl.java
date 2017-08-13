@@ -2,6 +2,7 @@ package liu.york.service.serviceImpl;
 
 import liu.york.exception.AirServiceException;
 import liu.york.mapper.UsdMapper;
+import liu.york.model.UsdIdNameModel;
 import liu.york.model.UsdModel;
 import liu.york.service.UsdService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +19,21 @@ public class UsdServiceImpl implements UsdService {
     private UsdMapper usdMapper;
 
     @Override
-    public List<UsdModel> selectUsdByUserId(int userid) {
+    public List<UsdModel> selectUsdByUserId(String userid) {
         return usdMapper.selectUsdByUserId(userid);
     }
 
     @Override
     public int insertUsd(UsdModel usdModel) {
 //        todo 首先要判断插入的的 usdModel 是否有效
+        int i;
+        try{
+            i = usdMapper.insertUsd(usdModel);
+        }catch (Exception e){
+            throw new AirServiceException("插入失败！！！");
+        }
 
-
-        return usdMapper.insertUsd(usdModel);
+        return i;
     }
 
     @Override
@@ -38,5 +44,10 @@ public class UsdServiceImpl implements UsdService {
     @Override
     public int deleteUsd(String snid) {
         return usdMapper.deleteUsd(snid);
+    }
+
+    @Override
+    public List<UsdIdNameModel> getAllSnName(String userid) {
+        return usdMapper.getAllSnName(userid);
     }
 }

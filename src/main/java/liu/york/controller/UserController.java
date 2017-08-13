@@ -37,13 +37,6 @@ public class UserController {
         request.getSession().setAttribute("userSession",userModel);
         jsonModel.setSuccess(true);
 
-        try {
-            response.sendRedirect("/airsy/frame.html");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
         return jsonModel;
     }
 

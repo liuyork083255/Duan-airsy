@@ -22,6 +22,12 @@
 </div>
 
 <hr/>
+<div>
+    选择设备：
+    <select id="sn_data_select" onchange="sn_value_change()"></select>
+</div>
+
+<hr/>
 
 <div id="father_login_error">
     <div id="login_error" style="text-align: center" >
@@ -34,6 +40,35 @@
 <script src="/airsy/js/datatable/datatable.js"></script>
 <script>
 
+
+    $.post('/airsy/usd/getAllSnName',function (json) {
+        if(json.success){
+            if(json.obj.length > 0){
+                for(var i=0;i<json.obj.length;i++){
+                    var option = $('<option value="'+json.obj[i].snid+'">'+json.obj[i].snname+'</option>');
+                    $('#sn_data_select').append(option);
+
+                }
+                $('#sn_data_select').val('');
+            }else{
+                alert('你还没有添加SN设备！！！');
+            }
+        }else{
+            alert('你还没有登陆')
+        }
+    })
+
+
+    function sn_value_change() {
+
+        var  snid = $('#sn_data_select').val();
+
+        console.info(snid);
+
+        getData(snid);
+        setInterval(getData(snid),1000*60*5); //refresh per 5 minute
+    }
+
     //获取当前时间
     function getCurrnetTime() {
         var d=new Date();
@@ -41,7 +76,7 @@
     }
 
     //    setInterval("getData()",1000*5); //refresh per 5 minute
-    function getData() {
+    function getData(snid) {
         $("#father_login_error div").remove();
         var table = $("<table id='example' class='display' cellspacing='0' width='100%'></table>");
         var div = $('<div id="login_error" style="text-align: center"></div>');
@@ -51,7 +86,7 @@
         $.ajax({
             type: "post",
             url: "/airsy/data/selectDataBySNid",
-            data:"snid="+1,
+            data:"snid="+snid,
             success: function(json){
                 if(json.success){
                     var data = json.obj;
@@ -102,8 +137,7 @@
             }
         });
     }
-    getData();
-    setInterval("getData()",1000*60*5); //refresh per 5 minute
+
 
     //显示时间
     var currentTime = self.setInterval("clock()",1000);

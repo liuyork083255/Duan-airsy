@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Duan</title>
+    <title>AirSY</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/airsy/css/bootstrap/bootstrap.min.css" rel="stylesheet">
@@ -85,6 +85,11 @@
     $("#frame-theme").html("SN 列表");
     $("#frame-div").load("datatable/sn.html");
   });
+
+  $("#menu-sn-data-show").click(function () {
+    $("#frame-theme").html("数据查看");
+    $("#frame-div").load("datatable/sn-data.html");
+  })
 
 
   $("#signout").click(function () {

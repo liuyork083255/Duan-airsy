@@ -82,9 +82,8 @@
             if(json.success){
                 $("#username").val(json.obj.username);
                 $("#email").val(json.obj.email);
-
             }else{
-
+                alert(json.msg)
             }
         }
     });
