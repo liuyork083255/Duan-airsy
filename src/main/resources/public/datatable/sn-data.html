@@ -63,7 +63,6 @@
 
         var  snid = $('#sn_data_select').val();
 
-        console.info(snid);
 
         getData(snid);
         setInterval(getData(snid),1000*60*5); //refresh per 5 minute
@@ -129,9 +128,6 @@
                 }
             },
             error:function (a,b,c) {
-                console.info(a);
-                console.info(b);
-                console.info(c);
                 $("#div_refresh_time").html("<div style='color:red'>"+getCurrnetTime()+"</div>");
                 $("#div_refresh_state").html("<div style='color:red'>False</div>");
             }

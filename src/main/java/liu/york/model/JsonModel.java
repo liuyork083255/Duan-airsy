@@ -8,6 +8,14 @@ public class JsonModel {
     private String msg;
     private Object obj;
 
+    public JsonModel(){}
+
+    public JsonModel(boolean success,String msg,Object obj){
+        this.success = success;
+        this.msg = msg;
+        this.obj = obj;
+    }
+
     public boolean isSuccess() {
         return success;
     }

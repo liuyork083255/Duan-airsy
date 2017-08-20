@@ -33,4 +33,25 @@
         SELECT `snid`,`snname` FROM air_usd WHERE userid = #{userid}
     </select>
 
+
+    <select id="validateInsertSNid" parameterType="java.lang.String" resultType="int">
+        SELECT COUNT(1) FROM air_sn WHERE sn = #{sn} AND state = 1
+    </select>
+
+    <update id="updateSNstate" parameterType="java.lang.String">
+        UPDATE air_sn SET state = 0 WHERE sn = #{sn} AND state = 1
+    </update>
+
+    <select id="validateDataComing" parameterType="java.lang.String" resultType="int">
+        SELECT COUNT(1) FROM air_sn WHERE sn = #{sn} AND state = 0
+    </select>
+
+    <select id="selectUsdBySN" parameterType="java.lang.String" resultType="liu.york.model.UsdModel">
+        SELECT * FROM air_usd WHERE sn = #{sn}
+    </select>
+
+    <select id="validateUsdName" parameterType="java.lang.String" resultType="int">
+        SELECT COUNT(1) FROM air_usd WHERE snname = #{snname}
+    </select>
+
 </mapper>

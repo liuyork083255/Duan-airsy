@@ -9,4 +9,5 @@ import java.util.List;
  */
 public interface DataService {
     List<DataModel> selectDataBySNid(String snid);
+    int insertData(DataModel dataModel);
 }

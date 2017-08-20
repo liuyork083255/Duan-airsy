@@ -21,4 +21,9 @@ public class DataServiceImpl implements DataService {
     public List<DataModel> selectDataBySNid(String snid) {
         return dataMapper.selectDataBySNid(snid);
     }
+
+    @Override
+    public int insertData(DataModel dataModel) {
+        return dataMapper.insertData(dataModel);
+    }
 }

@@ -77,17 +77,30 @@
                         $.each( d.data, function (key, value) {
                             var uuid = $.getUUID();
                             value.snid = uuid;
+
                             $.ajax({
                                 type: "post",
-                                url: "/airsy/usd/insertUsd",
-                                contentType:"application/json;charset=utf-8",
-                                data:JSON.stringify(value),
+                                url: "/airsy/usd/validateUsdName",
+                                data:"snname="+value.snname,
                                 dataType: "json",
                                 success: function(json){
                                     if(json.success){
-                                        todo[uuid] = json.obj;
-                                        output.data.push(json.obj);
-                                        successCallback(output);
+                                        $.ajax({
+                                            type: "post",
+                                            url: "/airsy/usd/insertUsd",
+                                            contentType:"application/json;charset=utf-8",
+                                            data:JSON.stringify(value),
+                                            dataType: "json",
+                                            success: function(json){
+                                                if(json.success){
+                                                    todo[uuid] = json.obj;
+                                                    output.data.push(json.obj);
+                                                    successCallback(output);
+                                                }else{
+                                                    alert(json.msg);
+                                                }
+                                            }
+                                        });
                                     }else{
                                         alert(json.msg);
                                     }

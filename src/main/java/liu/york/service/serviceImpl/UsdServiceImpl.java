@@ -5,6 +5,8 @@ import liu.york.mapper.UsdMapper;
 import liu.york.model.UsdIdNameModel;
 import liu.york.model.UsdModel;
 import liu.york.service.UsdService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,9 @@ import java.util.List;
  */
 @Service
 public class UsdServiceImpl implements UsdService {
+
+    private static final Logger logger = LoggerFactory.getLogger(UsdServiceImpl.class);
+
     @Autowired
     private UsdMapper usdMapper;
 
@@ -25,15 +30,23 @@ public class UsdServiceImpl implements UsdService {
 
     @Override
     public int insertUsd(UsdModel usdModel) {
-//        todo 首先要判断插入的的 usdModel 是否有效
-        int i;
-        try{
-            i = usdMapper.insertUsd(usdModel);
-        }catch (Exception e){
-            throw new AirServiceException("插入失败！！！");
-        }
 
-        return i;
+        int flag = validateInsertSNid(usdModel.getSn());
+        if(flag == 0){
+            throw new AirServiceException("SN序列号无效");
+        }else{
+
+            try {
+                int i = usdMapper.insertUsd(usdModel);
+                int j = usdMapper.updateSNstate(usdModel.getSn());
+                if(i == 0 || j == 0){
+                    throw new AirServiceException("插入失败！！！");
+                }
+            } catch (AirServiceException e) {
+                logger.error("新增SN设备失败  msg : " + e.getMessage());
+            }
+        }
+        return 1;
     }
 
     @Override
@@ -50,4 +63,30 @@ public class UsdServiceImpl implements UsdService {
     public List<UsdIdNameModel> getAllSnName(String userid) {
         return usdMapper.getAllSnName(userid);
     }
+
+    @Override
+    public int validateInsertSNid(String sn) {
+        return usdMapper.validateInsertSNid(sn);
+    }
+
+    @Override
+    public int updateSNstate(String sn) {
+        return usdMapper.updateSNstate(sn);
+    }
+
+    @Override
+    public int validateDataComing(String sn) {
+        return usdMapper.validateDataComing(sn);
+    }
+
+    @Override
+    public UsdModel selectUsdBySN(String sn) {
+        return usdMapper.selectUsdBySN(sn);
+    }
+
+    @Override
+    public int validateUsdName(String snname) {
+        return usdMapper.validateUsdName(snname);
+    }
+
 }

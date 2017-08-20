@@ -8,4 +8,10 @@
         SELECT * FROM air_data WHERE snid = #{snid}
     </select>
 
+    <insert id="insertData" parameterType="liu.york.model.DataModel">
+        INSERT INTO air_data VALUES
+        (#{dataid},#{pmtwo},#{pmten},#{noise},#{speed},#{direction},#{temperature},#{humidity},#{snid},#{datetime})
+    </insert>
+
+
 </mapper>

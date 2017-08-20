@@ -17,4 +17,10 @@ public interface UsdMapper {
     int updateUsd(UsdModel usdModel);
     int deleteUsd(@Param("snid") String snid);
     List<UsdIdNameModel> getAllSnName(@Param("userid") String userid);
+    int validateInsertSNid(@Param("sn") String sn);
+    int updateSNstate(@Param("sn") String sn);
+    int validateDataComing(@Param("sn") String sn);
+    UsdModel selectUsdBySN(@Param("sn") String sn);
+    int validateUsdName(@Param("snname") String snname);
+
 }

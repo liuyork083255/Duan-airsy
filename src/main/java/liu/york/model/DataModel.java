@@ -1,18 +1,29 @@
 package liu.york.model;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by Administrator on 2017/7/22.
  */
 public class DataModel {
     private String dataid;
+    @NotNull(message = "PM2.0 不能为空")
     private String pmtwo;
+    @NotNull(message = "PM10.0 不能为空")
     private String pmten;
+    @NotNull(message = "噪音 不能为空")
     private String noise;
+    @NotNull(message = "风速 不能为空")
     private String speed;
+    @NotNull(message = "风向 不能为空")
     private String direction;
+    @NotNull(message = "温度 不能为空")
     private String temperature;
+    @NotNull(message = "湿度 不能为空")
     private String humidity;
+    @NotNull(message = "SN设备号 不能为空")
     private String snid;
+
     private String datetime;
 
     public String getDataid() {

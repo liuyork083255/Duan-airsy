@@ -52,8 +52,6 @@ public class UsdController {
     public JsonModel insertUsd(@RequestBody UsdModel usdModel,HttpServletRequest request){
         JsonModel json = new JsonModel();
 
-        System.out.println(JSON.toJSONString(usdModel));
-
         if(usdModel == null){
             json.setSuccess(false);
             json.setMsg("获取参数失败");
@@ -113,6 +111,20 @@ public class UsdController {
         return json;
     }
 
+
+    @ResponseBody
+    @RequestMapping("/validateUsdName")
+    public JsonModel validateUsdName(String snname){
+
+        if(snname == null || snname.trim().length() == 0)
+            return new JsonModel(false,"获取SN设备名称失败",null);
+
+        int i = usdService.validateUsdName(snname);
+        if(i == 1)
+            return new JsonModel(false,"SN 设备名称已存在",null);
+
+        return new JsonModel(true,null,null);
+    }
 
     @ResponseBody
     @RequestMapping("/getAllSnName")

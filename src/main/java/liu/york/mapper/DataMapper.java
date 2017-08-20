@@ -13,4 +13,5 @@ import java.util.List;
 @Repository
 public interface DataMapper {
     List<DataModel> selectDataBySNid(@Param("snid")String snid);
+    int insertData(DataModel dataModel);
 }
