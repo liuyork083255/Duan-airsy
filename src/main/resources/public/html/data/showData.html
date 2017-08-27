@@ -1,0 +1,125 @@
+<body>
+
+<div style="height: 5%">
+    选择设备：
+    <select id="select-sn-snid" onchange="value_change()"></select>
+</div>
+<hr>
+
+<div style="height: 90%">
+    <table id="datagrid_showSNdata">
+    </table>
+</div>
+
+<script type="text/javascript">
+
+    $.ajax({
+        type : "POST",
+        url: $.projectUrl+"/usd/getAll",
+        dataType : "json",
+        success : function(json) {//返回的数据是json对象
+            if(json.success){
+                var list = json.obj;
+                for(var i=0;i<list.length;i++){
+                    $('#select-sn-snid').append($('<option value="'+list[i].snid+'">'+list[i].snname+'</option>'));
+                }
+                $('#select-sn-snid').val('');
+            }else{
+                $.messager.alert('提示', '获取数据失败 !', 'error');
+            }
+        },
+        error : function() {
+            $.messager.alert('提示', '保存失败，请联系管理员 !', 'error');
+        }
+    });
+
+
+    function value_change() {
+
+        var  snid = $('#select-sn-snid').val();
+
+
+        init(snid);
+        setInterval(getData(snid),1000*60*5); //refresh per 5 minute
+    }
+
+    function init(snid) {
+        $('#datagrid_showSNdata').datagrid({
+            url:$.projectUrl+"/admin/getDataByDataId?dataId=" + snid,
+            title:'SN数据查看',
+            iconCls:'icon-large-clipart',
+            checkOnSelect:false,
+            fit:true,	//加上这个属性可以让datagrid在界面很小的时候下面加一个滑动块
+            fitColumns:false,
+            nowrap:false,	//保证每一行的内容能够全部显示出来，也就是启动了换行模式
+            pagination:true,//显示分页功能
+            onDblClickRow:function(rowIndex,rowData){doubleClickRow(rowIndex,rowData);},//双击事件触发
+            onLoadSuccess:function(data){loadSuccess();},//数据加载成功触发
+            onLoadError:function(){loadError();},//数据加载失败触发
+            onClickCell:function(rowIndex, field, value){clickCell(rowIndex, field, value);},
+            /* 定义列属性 */
+            columns:[[
+                {field:'dataid',title:'table的id',width:20,checkbox:true},
+                {field:'snid',title:'设备编号',width:250},
+                {field:'pmtwo',title:'PM2.0',width:100},
+                {field:'pmten',title:'PM10.0',width:100},
+                {field:'noise',title:'造影',width:100},
+                {field:'speed',title:'风速',width:100},
+                {field:'direction',title:'风向',width:100},
+                {field:'temperature',title:'温度',width:100},
+                {field:'humidity',title:'湿度',width:100},
+                {field:'datetime',title:'日期',width:150}
+            ]],
+            /* 定义工具栏按钮 */
+            toolbar:[{
+                text:'编辑行',
+                iconCls: 'icon-edit',
+                handler: function(){beginEdit();}	//调用选中行的编辑模式
+            },'-',{
+                text:'回滚编辑',
+                iconCls: 'icon-mini-refresh',
+                handler: function(){cancelEdit();}	//调用选中行的编辑模式
+            },'-',{
+                text:'刷新尺寸',
+                iconCls: 'icon-reload',
+                handler: function(){flushSize();}	//调用插入行方法
+            },'-',{
+                text:'保存',
+                iconCls: 'icon-save',
+                handler: function(){saveRow();}	//调用插入行方法
+            }]
+        });
+
+        /* 有时候会出现datagrid尺寸不能随着界面大小改变而改变，故需要进行刷新 */
+        function flushSize(){
+            $('#datagrid_showAllTables').datagrid({
+                fit:true
+            });
+        }
+
+        /* 当数据加载成功触发该方法，如果后台返回记录为0则算作加载成功 */
+        function loadSuccess(){
+            var rows = $("#datagrid_showAllTables").datagrid("getRows");
+            if(rows.length < 1){
+                $.messager.show({
+                    title:'提示',
+                    msg:'当前记录为空.',
+                    timeout:2000,
+                    showType:'slide'
+                });
+            }
+        }
+        /* 当数据加载失败触发该方法 */
+        function loadError(){
+            $.messager.show({
+                title:'提示',
+                msg:'访问路径出错，请联系管理员！！！ ',
+                timeout:3000,
+                showType:'slide'
+            });
+        }
+    }
+    
+
+</script>
+</body>

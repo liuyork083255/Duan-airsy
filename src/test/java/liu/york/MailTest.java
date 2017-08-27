@@ -17,15 +17,19 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class MailTest {
     @Autowired
-    private JavaMailSender mailSender;
+    private   JavaMailSender mailSender;
 
     @Value("${spring.mail.username}")
     private String sender;
 
     @Test
     public void sendMailTest(){
-
-        MailUtil.sendMail("18721816191@163.com");
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(sender);
+        message.setTo("18721816191@163.com");
+        message.setSubject("主题：简单邮件");
+        message.setText("ceshi");
+        mailSender.send(message);
     }
 
 }

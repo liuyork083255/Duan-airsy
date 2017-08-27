@@ -11,19 +11,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class MailUtil {
-    @Autowired
-    private static  JavaMailSender mailSender;
 
-    @Value("${spring.mail.username}")
-    private static String sender;
-
-    public static void sendMail(String target){
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(sender);
-        message.setTo(target);
-        message.setSubject("主题：简单邮件");
-        message.setText("测试邮件内容");
-        mailSender.send(message);
-    }
 
 }

@@ -1,0 +1,95 @@
+<!-- 西部界面 -->
+<body>
+
+<div id="east-zedie1" class="easyui-accordion" data-options="fit:true">
+		<div title="SN设备" data-options="iconCls:'icon-save',selected:true" style="overflow: auto; padding: 10px;">
+			<div>
+				<a href="#" onclick="a_click(1);" class="easyui-linkbutton" data-options="iconCls:'icon-add'" style="width: 170px;">新增SN设备</a><br />
+			</div>
+		</div>
+		<!-- --------------------------------------------------------------------------------------------------------------- -->
+		<div title="邀请码" data-options="iconCls:'icon-reload'" style="padding:10px;">
+			<div>
+				<a href="#" onclick="a_click(3);" class="easyui-linkbutton" data-options="iconCls:'icon-add'" style="width: 170px;">新增邀请码</a><br />
+			</div>
+    	</div>
+		<!-- --------------------------------------------------------------------------------------------------------------- -->
+		<div title="SN数据" data-options="iconCls:'icon-add'" style="padding:10px;">
+			<div>
+				<a href="#" onclick="a_click(4);" class="easyui-linkbutton" data-options="iconCls:'icon-add'" style="width: 170px;">SN设备查看</a><br />
+			</div>
+			<div>
+				<a href="#" onclick="a_click(6);" class="easyui-linkbutton" data-options="iconCls:'icon-remove'" style="width: 170px;">SN数据数据查看</a><br />
+			</div>
+    	</div>
+		<!-- --------------------------------------------------------------------------------------------------------------- -->
+	    <div title="用户信息管理" data-options="iconCls:'icon-help'" style="padding:10px;">
+				<div>
+					<a href="#" onclick="a_click(5);" class="easyui-linkbutton" data-options="iconCls:'icon-add'" style="width: 170px;">用户信息管理</a><br />
+				</div>
+	    </div>
+		<!-- --------------------------------------------------------------------------------------------------------------- -->
+    <div title="帮助" data-options="iconCls:'icon-help'" style="padding:10px;">
+		content3
+    </div>
+</div>
+
+
+<script type="text/javascript">
+function a_click(index){
+	if(index == 1){
+		$("#newTableLayout").layout('panel', 'center').panel({
+			href : 'sn/newSN.html'
+		});
+	}
+	else if(index == 2){
+		$("#newTableLayout").layout('panel', 'center').panel({
+			href : 'yqm/newYQM.html',
+			cache:false
+		});
+	}
+	else if(index == 3){
+		$("#newTableLayout").layout('panel', 'center').panel({
+			href : 'yqm/newYQM.html',
+			cache:false
+		});
+	}
+	else if(index == 4){
+		$("#newTableLayout").layout('panel', 'center').panel({
+			href : 'data/showUsd.html',
+			cache:false
+		});
+	}
+	else if(index == 5){
+		$("#newTableLayout").layout('panel', 'center').panel({
+			href : 'user/showUser.html',
+			cache:false
+		});
+	}
+	else if(index == 6){
+		$("#newTableLayout").layout('panel', 'center').panel({
+			href : 'data/showData.html',
+			cache:false
+		});
+	}
+	else if(index == 7){}
+	else if(index == 8){}
+	else{}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>

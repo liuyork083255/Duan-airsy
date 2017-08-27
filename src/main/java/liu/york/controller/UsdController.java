@@ -136,4 +136,14 @@ public class UsdController {
         json.setSuccess(true);
         return json;
     }
+
+    @ResponseBody
+    @RequestMapping("/getAll")
+    public JsonModel getAll(){
+        JsonModel json = new JsonModel();
+        List<UsdIdNameModel> allSnName = usdService.getAll();
+        json.setObj(allSnName);
+        json.setSuccess(true);
+        return json;
+    }
 }

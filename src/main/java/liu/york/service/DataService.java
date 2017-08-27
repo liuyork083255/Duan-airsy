@@ -10,4 +10,6 @@ import java.util.List;
 public interface DataService {
     List<DataModel> selectDataBySNid(String snid);
     int insertData(DataModel dataModel);
+    int selectDataTotal();
+    List<DataModel> selectDataById(String dataid,int num1,int num2);
 }

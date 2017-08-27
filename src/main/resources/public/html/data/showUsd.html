@@ -1,0 +1,67 @@
+<body>
+<table id="datagrid_showSNdata">
+</table>
+<script type="text/javascript">
+    $(function(){
+
+        $('#datagrid_showSNdata').datagrid({
+            url:$.projectUrl+"/admin/getAllUsd",
+            title:'SN数据查看',
+            iconCls:'icon-large-clipart',
+            checkOnSelect:false,
+            fit:true,	//加上这个属性可以让datagrid在界面很小的时候下面加一个滑动块
+            fitColumns:false,
+            nowrap:false,	//保证每一行的内容能够全部显示出来，也就是启动了换行模式
+            pagination:true,//显示分页功能
+            onLoadSuccess:function(data){loadSuccess();},//数据加载成功触发
+            onLoadError:function(){loadError();},//数据加载失败触发
+            onClickCell:function(rowIndex, field, value){clickCell(rowIndex, field, value);},
+            /* 定义列属性 */
+            columns:[[
+                {field:'snid',title:'table的id',width:20,checkbox:true},
+                {field:'snname',title:'设备名称',width:100},
+                {field:'company',title:'公司名称',width:200},
+                {field:'worksite',title:'工作地点',width:250},
+                {field:'sn',title:'SN编号',width:250}
+            ]],
+            /* 定义工具栏按钮 */
+            toolbar:[{
+                text:'刷新尺寸',
+                iconCls: 'icon-reload',
+                handler: function(){flushSize();}	//调用插入行方法
+            }]
+        });
+
+        /* 有时候会出现datagrid尺寸不能随着界面大小改变而改变，故需要进行刷新 */
+        function flushSize(){
+            $('#datagrid_showAllTables').datagrid({
+                fit:true
+            });
+        }
+
+        /* 当数据加载成功触发该方法，如果后台返回记录为0则算作加载成功 */
+        function loadSuccess(){
+            var rows = $("#datagrid_showAllTables").datagrid("getRows");
+            if(rows.length < 1){
+                $.messager.show({
+                    title:'提示',
+                    msg:'当前记录为空.',
+                    timeout:2000,
+                    showType:'slide'
+                });
+            }
+        }
+        /* 当数据加载失败触发该方法 */
+        function loadError(){
+            $.messager.show({
+                title:'提示',
+                msg:'访问路径出错，请联系管理员！！！ ',
+                timeout:3000,
+                showType:'slide'
+            });
+        }
+        
+    })
+
+</script>
+</body>

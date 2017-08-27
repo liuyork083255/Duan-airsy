@@ -19,4 +19,16 @@
         WHERE userid = #{userid}
     </update>
 
+    <select id="getAllUser" resultType="liu.york.model.UserModel">
+        SELECT * FROM air_user LIMIT #{num1,jdbcType=BIT},#{num2,jdbcType=BIT}
+    </select>
+
+    <select id="selectUserTotal" resultType="int">
+        SELECT count(1) FROM air_user
+    </select>
+
+    <insert id="insertUser" parameterType="liu.york.model.UserModel">
+        INSERT INTO air_user VALUES (#{userid},#{username},#{password},#{priority},#{info},#{email})
+    </insert>
+
 </mapper>

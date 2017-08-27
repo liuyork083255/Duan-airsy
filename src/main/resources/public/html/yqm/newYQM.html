@@ -1,0 +1,72 @@
+<body>
+
+
+<div id="window" class="easyui-window" style="width:310px;height:180px"
+     data-options="closed:false,modal:true,title:'新增设备',closable:true,minimizable:false,collapsible:false">
+    <form id="from-yqm" method="post">
+        <table cellpadding="5">
+            <tr>
+                <td>发送邮箱:</td>
+                <td><input id="from-newsn-email" class="easyui-textbox" data-options="required:true,validType:'email'"></td>
+            </tr>
+            <tr>
+                <td>邀请码:</td>
+                <td><input id="from-newsn-password" class="easyui-textbox" data-options="required:true,validType:['length[8]','unnormal']"></td>
+            </tr>
+        </table>
+    </form>
+    <br>
+    <div style="text-align:center;padding:5px">
+        <a id="admin_login_submit" href="javascript:void(0)" class="easyui-linkbutton" onclick="submitFormSendYQM()">Submit</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearFormSendYQM()">Clear</a>
+    </div>
+</div>
+
+<script>
+
+    function submitFormSendYQM() {
+        $('#from-yqm').form('submit',{
+            onSubmit: function(){
+                //首先开启检验功能
+                var flag = $('#from-yqm').form('validate');
+                if(flag == false){
+                    return false;
+                }
+                else{
+                    var model = {};
+                    model["email"] = $("#from-newsn-email").val();
+                    model["yqm"] = $("#from-newsn-password").val()
+
+                    $.ajax({
+                        type: "POST",
+                        url: $.projectUrl+"/admin/setYQM",
+                        //注意了，如果传递给后台的数据是直接就是json对象，而不是字符串，那么就要用JSON.stringify进行转换成字符串类型
+                        data:"email="+model.email+"&yqm="+model.yqm,
+                        success: function(data){
+                            if(data.success){
+                                $.messager.show({
+                                    title:'提示',
+                                    msg:data.msg,
+                                    timeout:5000
+                                });
+                            }else{
+                                $.messager.show({
+                                    title:'提示',
+                                    msg:data.msg,
+                                    timeout:5000
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+
+    function clearFormSendYQM(){
+        $('#from-yqm').form('clear');
+    }
+
+</script>
+</body>

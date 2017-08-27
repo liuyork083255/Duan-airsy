@@ -89,4 +89,33 @@ public class UsdServiceImpl implements UsdService {
         return usdMapper.validateUsdName(snname);
     }
 
+    @Override
+    public int insertSN(String sn) {
+
+        int i = usdMapper.selectSNById(sn);
+        if(i == 1)
+            throw new AirServiceException("该编号已存在");
+        return usdMapper.insertSN(sn);
+    }
+
+    @Override
+    public int selectUsdTotal() {
+        return usdMapper.selectUsdTotal();
+    }
+
+    @Override
+    public List<UsdModel> selectUsd(int num1, int num2) {
+        return usdMapper.selectUsd(num1,num2);
+    }
+
+    @Override
+    public List<UsdIdNameModel> getAll() {
+        return usdMapper.getAll();
+    }
+
+    @Override
+    public int selectSNById(String sn) {
+        return usdMapper.selectSNById(sn);
+    }
+
 }

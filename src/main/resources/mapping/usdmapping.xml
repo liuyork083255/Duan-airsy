@@ -54,4 +54,25 @@
         SELECT COUNT(1) FROM air_usd WHERE snname = #{snname}
     </select>
 
+    <insert id="insertSN" parameterType="java.lang.String">
+        INSERT INTO air_sn VALUES (#{sn},'1')
+    </insert>
+
+
+    <select id="selectUsdTotal" resultType="int">
+        SELECT count(1) FROM air_usd;
+    </select>
+
+    <select id="selectUsd" resultType="liu.york.model.UsdModel">
+        SELECT * FROM air_usd limit #{num1,jdbcType=BIT},#{num2,jdbcType=BIT}
+    </select>
+
+    <select id="getAll" resultType="liu.york.model.UsdIdNameModel">
+        SELECT  `snid`,`snname`  from air_usd
+    </select>
+
+    <select id="selectSNById" parameterType="java.lang.String" resultType="int">
+        SELECT count(1) from air_sn WHERE sn=#{sn}
+    </select>
+
 </mapper>

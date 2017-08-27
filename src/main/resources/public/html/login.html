@@ -1,0 +1,91 @@
+
+<body>
+	<!-- 登陆div -->
+<div id="window" class="easyui-window" style="width:300px;height:150px"
+	 data-options="closed:false,modal:true,title:'登陆界面',closable:true,minimizable:false,collapsible:false">
+			<form id="window_admin_login_form_login" method="post">
+		    	<table cellpadding="5">
+		    		<tr>
+		    			<td>Name:</td>
+		    			<td><input id="window_admin_login_form_login_name" class="easyui-textbox" type="text" name="name" data-options="required:true,validType:'namevalidte'"></td>
+		    		</tr>
+		    		<tr>
+		    			<td>Password:</td>
+		    			<td><input id="window_admin_login_form_login_password" class="easyui-textbox" type="password" name="email" data-options="required:true,validType:'unnormal'"></td>
+		    		</tr>
+		    	</table>
+	    	</form>
+		    <div style="text-align:center;padding:5px">
+		    	<a id="admin_login_submit" href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">Submit</a>
+		    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">Clear</a>
+		    </div>
+</div>
+
+<script type="text/javascript">
+function submitForm(){
+	$('#window_admin_login_form_login').form('submit',{
+	    onSubmit: function(){
+	    	//首先开启检验功能 
+	    	var flag = $('#window_admin_login_form_login').form('validate');
+	    	if(flag == false){
+	    		return false;
+	    	}
+	    	else{
+	    		var user = {};
+	    		user["username"] = $("#window_admin_login_form_login_name").val();
+	    		md5Password = $.md5($("#window_admin_login_form_login_password").val());
+	    		user["password"] = md5Password;
+
+	     		$.ajax({
+				   type: "GET",
+				   url:"/airsy/admin/adminLogin",
+				   data:"username="+user.username+"&password="+user.password,
+				   success: function(data){
+				     if(data.success){
+				    	 //此处将当前用户存入全局变量中 
+				    	 $.setGlobalUser(data.obj);
+				    	 
+				    	 $("#window").window('close');
+				 		 $.messager.show({
+							title:'提示',
+							msg:'欢迎 '+user.username,
+							timeout:5000
+						 });
+				 		 
+				     }else{
+				 		 $.messager.show({
+								title:'提示',
+								msg:data.msg,
+								timeout:5000
+							 });
+				     }
+				   }
+	     		});
+	    	}
+	    }
+	});
+}
+function clearForm(n){
+	$('#window_admin_login_form_login').form('clear');
+}
+
+
+$("#window").keydown(function(event) {
+    if(event.keyCode == 13) {
+    	submitForm();
+    }
+});
+</script>
+</body>
+
+
+
+
+
+
+
+
+
+
+
+

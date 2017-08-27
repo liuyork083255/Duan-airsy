@@ -13,5 +13,12 @@
         (#{dataid},#{pmtwo},#{pmten},#{noise},#{speed},#{direction},#{temperature},#{humidity},#{snid},#{datetime})
     </insert>
 
+    <select id="selectDataTotal" resultType="int">
+        SELECT count(1) from air_data
+    </select>
+
+    <select id="selectDataById" resultType="liu.york.model.DataModel">
+        SELECT * FROM air_data WHERE snid=#{dataid} limit #{num1,jdbcType=BIT},#{num2,jdbcType=BIT}
+    </select>
 
 </mapper>

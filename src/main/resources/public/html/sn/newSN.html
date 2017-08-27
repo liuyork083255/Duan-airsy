@@ -1,0 +1,68 @@
+<body>
+
+<div id="window" class="easyui-window" style="width:330px;height:150px"
+     data-options="closed:false,modal:true,title:'新增设备',closable:true,minimizable:false,collapsible:false">
+    <form id="from-newsn" method="post">
+        <table cellpadding="5">
+            <tr>
+                <td>设备编号:</td>
+                <td><input id="from-newsn-number" class="easyui-textbox" type="text" style="width:200px;" data-options="required:true,validType:'sn_length'"></td>
+            </tr>
+        </table>
+    </form>
+    <br>
+    <div style="text-align:center;padding:5px">
+        <a id="admin_login_submit" href="javascript:void(0)" class="easyui-linkbutton" onclick="submitFormInsertSN()">Submit</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearFormInsertSN()">Clear</a>
+    </div>
+</div>
+
+<script>
+
+    function submitFormInsertSN() {
+        $('#from-newsn').form('submit',{
+            onSubmit: function(){
+                //首先开启检验功能
+                var flag = $('#from-newsn').form('validate');
+                if(flag == false){
+                    return false;
+                }
+                else{
+                    var model = {};
+                    model["number"] = $("#from-newsn-number").val();
+
+                    $.ajax({
+                        type: "POST",
+                        url: $.projectUrl+"/admin/insertSNNumber",
+                        //注意了，如果传递给后台的数据是直接就是json对象，而不是字符串，那么就要用JSON.stringify进行转换成字符串类型
+                        data:"number="+model.number,
+                        success: function(data){
+                            if(data.success){
+                                $.messager.show({
+                                    title:'提示',
+                                    msg:"插入成功",
+                                    timeout:5000
+                                });
+                            }else{
+                                $.messager.show({
+                                    title:'提示',
+                                    msg:data.msg,
+                                    timeout:5000
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+
+
+    function clearFormInsertSN(n){
+        $('#from-newsn').form('clear');
+    }
+
+
+</script>
+</body>

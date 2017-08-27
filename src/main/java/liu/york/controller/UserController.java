@@ -95,6 +95,33 @@ public class UserController {
     }
 
     @ResponseBody
+    @RequestMapping("/register")
+    public JsonModel register(HttpServletRequest request,String username,String password,String email,String yqm){
+        JsonModel json = new JsonModel();
+        Object attribute = request.getServletContext().getAttribute(email);
+        if(attribute == null)
+            throw new AirControllerException("邀请码错误！");
+        String a = (String)attribute;
+        if(!a.equals(yqm))
+            throw new AirControllerException("邀请码错误！");
+        request.getServletContext().removeAttribute(email);
+
+        UserModel userModel = new UserModel();
+        userModel.setUsername(username);
+        userModel.setPassword(password);
+        userModel.setPriority("1");
+        userModel.setEmail(email);
+        userModel.setUserid(AirsyUtil.getUUID());
+        int i = userService.insertUser(userModel);
+        if(i != 1)
+            throw new AirControllerException("注册失败！");
+        request.getSession().setAttribute("userSession",userModel);
+
+        json.setSuccess(true);
+        return json;
+    }
+
+    @ResponseBody
     @RequestMapping("/sendMail")
     public JsonModel sendMail(HttpServletRequest request, String emailTarget){
         JsonModel json = new JsonModel();

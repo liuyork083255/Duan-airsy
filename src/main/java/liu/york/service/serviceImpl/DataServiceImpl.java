@@ -26,4 +26,14 @@ public class DataServiceImpl implements DataService {
     public int insertData(DataModel dataModel) {
         return dataMapper.insertData(dataModel);
     }
+
+    @Override
+    public int selectDataTotal() {
+        return dataMapper.selectDataTotal();
+    }
+
+    @Override
+    public List<DataModel> selectDataById(String dataid, int num1, int num2) {
+        return dataMapper.selectDataById(dataid,num1,num2);
+    }
 }

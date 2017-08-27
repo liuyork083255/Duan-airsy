@@ -21,5 +21,10 @@ public interface UsdService {
     int validateDataComing(String sn);
     UsdModel selectUsdBySN(String sn);
     int validateUsdName(String snname);
+    int insertSN(String sn);
+    int selectUsdTotal();
+    List<UsdModel> selectUsd(int num1,int num2);
+    List<UsdIdNameModel> getAll();
+    int selectSNById(String sn);
 
 }

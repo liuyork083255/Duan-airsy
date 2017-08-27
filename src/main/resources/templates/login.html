@@ -20,20 +20,20 @@
   <div class="tab-content">
     <div id="signup">
       <h1>Sign Up for Free</h1>
-      <form action="/" method="post">
+      <form action="javascript:;" method="post">
         <div class="top-row">
           <div class="field-wrap">
             <label>
               用户名<span class="req">*</span>
             </label>
-            <input type="text" required autocomplete="off" />
+            <input id="register_username" type="text" required autocomplete="off" />
           </div>
 
           <div class="field-wrap">
             <label>
               密码<span class="req">*</span>
             </label>
-            <input type="password"required autocomplete="off"/>
+            <input id="register_password" type="password"required autocomplete="off"/>
           </div>
         </div>
 
@@ -42,17 +42,17 @@
             邮箱地址
             <span class="req">*</span>
           </label>
-          <input type="email"required autocomplete="off"/>
+          <input id="register_email" type="email"required autocomplete="off"/>
         </div>
 
         <div class="field-wrap">
           <label>
             邀请码<span class="req">*</span>
           </label>
-          <input type="text"required autocomplete="off"/>
+          <input id="register_yqm" type="text"required autocomplete="off"/>
         </div>
 
-        <button type="submit" class="button button-block"/>Get Started</button>
+        <button class="button button-block" onclick="register()" />注册</button>
       </form>
     </div>
 
@@ -86,6 +86,31 @@
     loginAdmin();
   }
 
+  function register() {
+    var register_username = $('#register_username').val();
+    var register_password = $('#register_password').val();
+    var register_email = $('#register_email').val();
+    var register_yqm = $('#register_yqm').val();
+
+    if(register_username.length ==0 || register_password.length ==0|| register_email.length ==0|| register_yqm.length ==0)
+      return;
+
+    $.ajax({
+      type: "post",
+      url: "/airsy/user/register",
+      data: "username="+register_username+"&password="+register_password+"&email="+register_email+"&yqm="+ register_yqm,
+      dataType: "json",
+      success: function(json){
+        if(json.success){
+          var form = $('<form method="get" action="/airsy/frame.html"></form>');
+          form.appendTo('body').submit().remove();
+        }else{
+          alert(json.msg);
+        }
+      }
+    });
+
+  }
 
   function loginAdmin() {
     var username = $("#username").val();

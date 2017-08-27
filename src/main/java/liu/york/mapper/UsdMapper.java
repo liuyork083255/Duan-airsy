@@ -22,5 +22,9 @@ public interface UsdMapper {
     int validateDataComing(@Param("sn") String sn);
     UsdModel selectUsdBySN(@Param("sn") String sn);
     int validateUsdName(@Param("snname") String snname);
-
+    int insertSN(@Param("sn") String sn);
+    int selectUsdTotal();
+    List<UsdModel> selectUsd(@Param("num1")int num1,@Param("num2") int num2);
+    List<UsdIdNameModel> getAll();
+    int selectSNById(@Param("sn") String sn);
 }
