@@ -4,6 +4,8 @@ import liu.york.exception.AirControllerException;
 import liu.york.model.DataModel;
 import liu.york.model.JsonModel;
 import liu.york.service.DataService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/data")
 public class DataController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataController.class);
 
     @Autowired
     private DataService dataService;

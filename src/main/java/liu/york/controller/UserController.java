@@ -6,6 +6,8 @@ import liu.york.model.UserModel;
 import liu.york.service.UserService;
 import liu.york.util.AirsyUtil;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
@@ -24,6 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
@@ -46,7 +50,7 @@ public class UserController {
         }
         request.getSession().setAttribute("userSession",userModel);
         jsonModel.setSuccess(true);
-
+        LOGGER.info("["+ username +"] login success.");
         return jsonModel;
     }
 
@@ -97,13 +101,27 @@ public class UserController {
     @ResponseBody
     @RequestMapping("/register")
     public JsonModel register(HttpServletRequest request,String username,String password,String email,String yqm){
+        LOGGER.info("["+ username +"] start start register ...");
         JsonModel json = new JsonModel();
+
+        if(userService.selectUserByName(username) != null){
+            throw new AirControllerException("用户名已存在！");
+        }
+
+        if(userService.selectUserByEmail(email) != null){
+            throw new AirControllerException("邮箱已存在！");
+        }
+
         Object attribute = request.getServletContext().getAttribute(email);
-        if(attribute == null)
+        if(attribute == null) {
+            LOGGER.info("get yqm from servletContext through [" +email+ "] fail");
             throw new AirControllerException("邀请码错误！");
+        }
         String a = (String)attribute;
-        if(!a.equals(yqm))
+        if(!a.equals(yqm)) {
+            LOGGER.info("servletContext yqm is : [" +a+ "],user yqm is : [" + yqm + "]");
             throw new AirControllerException("邀请码错误！");
+        }
         request.getServletContext().removeAttribute(email);
 
         UserModel userModel = new UserModel();
@@ -113,11 +131,15 @@ public class UserController {
         userModel.setEmail(email);
         userModel.setUserid(AirsyUtil.getUUID());
         int i = userService.insertUser(userModel);
-        if(i != 1)
+        if(i != 1) {
+            LOGGER.info("user : [" + username + "register fail.");
             throw new AirControllerException("注册失败！");
+        }
         request.getSession().setAttribute("userSession",userModel);
-
         json.setSuccess(true);
+
+        LOGGER.info("["+ username +"] register success.");
+
         return json;
     }
 

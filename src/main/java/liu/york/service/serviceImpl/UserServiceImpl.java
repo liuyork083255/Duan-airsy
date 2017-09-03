@@ -41,4 +41,14 @@ public class UserServiceImpl implements UserService {
     public int insertUser(UserModel userModel) {
         return userMapper.insertUser(userModel);
     }
+
+    @Override
+    public UserModel selectUserByEmail(String email) {
+        return userMapper.selectUserByEmail(email);
+    }
+
+    @Override
+    public UserModel selectUserByName(String username) {
+        return userMapper.selectUserByName(username);
+    }
 }

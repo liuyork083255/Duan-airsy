@@ -10,6 +10,8 @@ import liu.york.service.UsdService;
 import liu.york.service.UserService;
 import liu.york.util.MailUtil;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.mail.MessagingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +31,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdminController.class);
 
     @Autowired
     private UserService userService;
@@ -35,12 +39,8 @@ public class AdminController {
     private UsdService usdService;
     @Autowired
     private DataService dataService;
-
     @Autowired
-    private JavaMailSender mailSender;
-
-    @Value("${spring.mail.username}")
-    private String sender;
+    private MailUtil mailUtil;
 
     @ResponseBody
     @RequestMapping("/adminLogin")
@@ -54,41 +54,48 @@ public class AdminController {
 
         request.getSession().setAttribute("userSession",userModel);
         json.setSuccess(true);
+
+        LOGGER.info("admin login success.  username : " + username);
         return json;
     }
 
     @ResponseBody
     @RequestMapping("/insertSNNumber")
     public JsonModel insertSNNumber(String number){
+        LOGGER.info("start begging insertSN number :" + number);
         JsonModel json = new JsonModel();
         int i = usdService.insertSN(number);
         if(i != 1)
             throw new AirControllerException("插入失败！");
         json.setSuccess(true);
+        LOGGER.info("insertSN number success.");
         return json;
     }
 
     @ResponseBody
     @RequestMapping("/setYQM")
     public JsonModel setYQM(HttpServletRequest request,String email,String yqm){
+        LOGGER.info("start setting yqm : "  + yqm);
         JsonModel json = new JsonModel();
 
+        if(userService.selectUserByEmail(email) != null){
+            throw new AirControllerException("邮箱已被注册！");
+        }
+
         String msg = "您的邀请码是:" + yqm;
+
         try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom(sender);
-            message.setTo(email);
-            message.setSubject("主题：邀请码");
-            message.setText(msg);
-            mailSender.send(message);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+            mailUtil.sendEmil(email,msg);
+        } catch (MessagingException e) {
+            LOGGER.error("send email to ["  + email + "] fail ,msg : " + e.getMessage());
             throw new AirControllerException("邮件发送失败");
         }
+
         request.getServletContext().setAttribute(email,yqm);
 
         json.setSuccess(true);
         json.setMsg("邮件发送成功");
+        LOGGER.info("email send to  ["  + email + "] success.");
         return json;
     }
 

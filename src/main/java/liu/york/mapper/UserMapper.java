@@ -16,4 +16,6 @@ public interface UserMapper {
     List<UserModel> getAllUser(@Param("num1")int num1,@Param("num2") int num2);
     int selectUserTotal();
     int insertUser(UserModel userModel);
+    UserModel selectUserByEmail(@Param("email") String email);
+    UserModel selectUserByName(@Param("username") String username);
 }

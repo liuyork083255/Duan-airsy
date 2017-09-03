@@ -31,4 +31,12 @@
         INSERT INTO air_user VALUES (#{userid},#{username},#{password},#{priority},#{info},#{email})
     </insert>
 
+    <select id="selectUserByEmail" parameterType="java.lang.String" resultType="liu.york.model.UserModel">
+        select * FROM  air_user WHERE email = #{email}
+    </select>
+
+    <select id="selectUserByName" parameterType="java.lang.String" resultType="liu.york.model.UserModel">
+        select * FROM  air_user WHERE username = #{username}
+    </select>
+
 </mapper>

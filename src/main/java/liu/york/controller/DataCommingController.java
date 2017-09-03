@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/dataEntry")
 public class DataCommingController {
 
-    private static final Logger logger = LoggerFactory.getLogger(DataCommingController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataCommingController.class);
 
     @Autowired
     private UsdService usdService;
@@ -32,14 +32,17 @@ public class DataCommingController {
     @ResponseBody
     @RequestMapping("/coming")
     public JsonModel comingData(@Validated DataModel dataModel){
+        LOGGER.info("data coming data : " + JSON.toJSONString(dataModel));
         /*
         这里的传进来的 snid 是sn编号，但是在model中snid 代表的是 sn 所代表的主键id
         所以这里先是 根据 sn 编号拿到对应的 sn所在记录的model，从而拿到对应主键id
          */
         UsdModel usdModel = usdService.selectUsdBySN(dataModel.getSnid());
 
-        if(usdModel == null)
-            return new JsonModel(false,"无效的 SN 设备编号",null);
+        if(usdModel == null) {
+            LOGGER.info("无效的 SN 设备编号.");
+            return new JsonModel(false, "无效的 SN 设备编号", null);
+        }
 
         dataModel.setSnid(usdModel.getSnid());
         dataModel.setDataid(AirsyUtil.getUUID());
@@ -47,6 +50,7 @@ public class DataCommingController {
 
         dataService.insertData(dataModel);
 
+        LOGGER.info("upload data success.");
         return new JsonModel(true,"上传成功",null);
     }
 }

@@ -13,4 +13,6 @@ public interface UserService {
     List<UserModel> getAllUser(int num1,int num2);
     int selectUserTotal();
     int insertUser(UserModel userModel);
+    UserModel selectUserByEmail(String email);
+    UserModel selectUserByName(String username);
 }

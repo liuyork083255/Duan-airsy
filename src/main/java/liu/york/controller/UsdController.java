@@ -8,6 +8,8 @@ import liu.york.model.UserModel;
 import liu.york.service.UsdService;
 import liu.york.service.UserService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +26,8 @@ import java.util.Map;
 @Controller
 @RequestMapping("/usd")
 public class UsdController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UsdController.class);
 
     @Autowired
     private UsdService usdService;
