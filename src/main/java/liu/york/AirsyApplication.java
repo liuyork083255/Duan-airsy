@@ -23,6 +23,12 @@ public class AirsyApplication {
 		return "login";
 	}
 
+
+	@RequestMapping("/")
+	public String index(){
+		return "login";
+	}
+
 	@RequestMapping("/signout")
 	public String signout(HttpServletRequest request){
 		request.getSession().removeAttribute("userSession");

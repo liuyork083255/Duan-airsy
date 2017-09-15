@@ -5,6 +5,7 @@ import liu.york.model.JsonModel;
 import liu.york.model.UserModel;
 import liu.york.service.UserService;
 import liu.york.util.AirsyUtil;
+import liu.york.util.MailUtil;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -35,8 +37,14 @@ public class UserController {
     @Autowired
     private static JavaMailSender mailSender;
 
+    @Autowired
+    private MailUtil mailUtil;
+
     @Value("${spring.mail.username}")
     private static String sender;
+
+    @Value("${spring.mail.username}")
+    private String username;
 
     @ResponseBody
     @RequestMapping("/login")
@@ -170,5 +178,25 @@ public class UserController {
         json.setSuccess(true);
         return json;
     }
+
+    @ResponseBody
+    @RequestMapping("/sendHelpMessageToAdmin")
+    public JsonModel sendHelpMessageToAdmin(HttpServletRequest request,String message){
+        if(message == null || message.length() == 0)
+            throw new AirControllerException("发送字段不能为空");
+        JsonModel json = new JsonModel();
+        UserModel userModel = (UserModel)request.getSession().getAttribute("userSession");
+        try {
+            mailUtil.sendEmil(username,String.format("come from [%s] question : %s",userModel.getUsername(),message));
+        } catch (MessagingException e) {
+            json.setSuccess(false);
+            LOGGER.error("user help function send message to admin fail. msg => " + e.getMessage());
+            return json;
+        }
+
+        json.setSuccess(true);
+        return json;
+    }
+
 
 }
