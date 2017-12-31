@@ -209,9 +209,9 @@ $.extend($.fn.validatebox.defaults.rules, {
     },
     sn_length: {
         validator: function (value, param) {
-            return /^[a-z_A-Z]{24}$/.test(value);
+            return /^[a-z_A-Z0-9]{24}$/.test(value);
         },
-        message: 'SN 编号长度为24!'                     //匹配失败消息
+        message: 'SN 编号长度为24,比如由字母和数字组成!'                     //匹配失败消息
     },
 
 });
