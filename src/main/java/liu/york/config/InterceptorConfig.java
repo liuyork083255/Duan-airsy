@@ -20,7 +20,8 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter{
                 excludePathPatterns("/login").
                 excludePathPatterns("/admin/adminLogin").
                 excludePathPatterns("/dataEntry/coming").
-                excludePathPatterns("/user/login");
+                excludePathPatterns("/user/login").
+                excludePathPatterns("/user/register");
         super.addInterceptors(registry);
     }
 }
