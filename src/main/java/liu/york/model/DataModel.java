@@ -21,6 +21,9 @@ public class DataModel {
     private String temperature;
     @NotNull(message = "湿度 不能为空")
     private String humidity;
+    @NotNull(message = "风力 不能为空")
+    private String power;
+
     @NotNull(message = "SN设备号 不能为空")
     private String snid;
 
@@ -88,6 +91,14 @@ public class DataModel {
 
     public void setHumidity(String humidity) {
         this.humidity = humidity;
+    }
+
+    public String getPower() {
+        return power;
+    }
+
+    public void setPower(String power) {
+        this.power = power;
     }
 
     public String getSnid() {

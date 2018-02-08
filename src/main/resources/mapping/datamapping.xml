@@ -10,7 +10,7 @@
 
     <insert id="insertData" parameterType="liu.york.model.DataModel">
         INSERT INTO air_data VALUES
-        (#{dataid},#{pmtwo},#{pmten},#{noise},#{speed},#{direction},#{temperature},#{humidity},#{snid},#{datetime})
+        (#{dataid},#{pmtwo},#{pmten},#{noise},#{speed},#{direction},#{temperature},#{humidity},#{power},#{snid},#{datetime})
     </insert>
 
     <select id="selectDataTotal" resultType="int">

@@ -9,7 +9,8 @@ CREATE TABLE `air_data` (
   `direction` VARCHAR(20)DEFAULT '',
   `temperature` VARCHAR(20) DEFAULT '',
   `humidity` VARCHAR(20) DEFAULT '',
-  `snid` VARCHAR(20) DEFAULT '',
+  `power` VARCHAR(20) DEFAULT '',
+  `snid` VARCHAR(32) DEFAULT '',
   `datetime` VARCHAR(30) DEFAULT '',
   PRIMARY KEY (`dataid`)
 );
@@ -30,7 +31,7 @@ CREATE TABLE `air_user` (
   `password` VARCHAR(50) DEFAULT '',
   `priority` VARCHAR(2) DEFAULT '',
   `info` VARCHAR(100) DEFAULT '',
-  `email` VARCHAR(50) DEFAULT ''
+  `email` VARCHAR(50) DEFAULT '',
   PRIMARY KEY (`userid`)
 )  ;
 
@@ -39,6 +40,8 @@ CREATE TABLE `air_sn` (
   `state` VARCHAR(2) DEFAULT ''
 ) ;
 
-INSERT INTO air_user VALUES('1','admin','e10adc3949ba59abbe56e057f20f883e','zlbyjzkjyxgs@163.com','0','管理员');
+INSERT INTO air_user VALUES('BAF538FEFF0448FDA71359590FB6D388','admin','e10adc3949ba59abbe56e057f20f883e','zlbyjzkjyxgs@163.com','0','管理员');
 
+-- http://url:port/airsy/html/index.html
+-- http://url:port/airsy/login
 

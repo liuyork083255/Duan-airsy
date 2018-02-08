@@ -54,7 +54,7 @@ public class GlobalException {
         logger.error("from Exception , msg : " + e.getMessage());
         JsonModel json = new JsonModel();
         json.setSuccess(false);
-        json.setMsg("操作异常");
+        json.setMsg(e.getMessage());
         return json;
     }
 }
