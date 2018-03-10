@@ -5,7 +5,7 @@
 <mapper namespace="liu.york.mapper.DataMapper">
 
     <select id="selectDataBySNid" resultType="liu.york.model.DataModel">
-        SELECT * FROM air_data WHERE snid = #{snid}
+        SELECT * FROM air_data WHERE snid = #{snid} ORDER BY `datetime` desc
     </select>
 
     <insert id="insertData" parameterType="liu.york.model.DataModel">
@@ -18,7 +18,7 @@
     </select>
 
     <select id="selectDataById" resultType="liu.york.model.DataModel">
-        SELECT * FROM air_data WHERE snid=#{dataid} limit #{num1,jdbcType=BIT},#{num2,jdbcType=BIT}
+        SELECT * FROM air_data WHERE snid=#{dataid} limit #{num1,jdbcType=BIT},#{num2,jdbcType=BIT} ORDER BY `datetime` desc
     </select>
 
 </mapper>

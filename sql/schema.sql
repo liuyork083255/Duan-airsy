@@ -40,7 +40,7 @@ CREATE TABLE `air_sn` (
   `state` VARCHAR(2) DEFAULT ''
 ) ;
 
-INSERT INTO air_user VALUES('BAF538FEFF0448FDA71359590FB6D388','admin','e10adc3949ba59abbe56e057f20f883e','0','zlbyjzkjyxgs@163.com','管理员');
+INSERT INTO air_user VALUES('BAF538FEFF0448FDA71359590FB6D388','admin','e10adc3949ba59abbe56e057f20f883e','0','管理员','zlbyjzkjyxgs@163.com');
 
 -- http://url:port/airsy/html/index.html
 -- http://url:port/airsy/login
