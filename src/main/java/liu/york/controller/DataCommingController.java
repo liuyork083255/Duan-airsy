@@ -81,6 +81,23 @@ public class DataCommingController {
             }
         }
 
+        String direction = dataModel.getDirection();
+        if(!StringUtils.isEmpty(direction)){
+            switch (direction){
+                case "0":dataModel.setDirection("北");break;
+                case "1":dataModel.setDirection("东北");break;
+                case "2":dataModel.setDirection("东");break;
+                case "3":dataModel.setDirection("东南");break;
+                case "4":dataModel.setDirection("南");break;
+                case "5":dataModel.setDirection("西南");break;
+                case "6":dataModel.setDirection("西");break;
+                case "7":dataModel.setDirection("西北");break;
+                default:
+                    dataModel.setDirection("其它");
+            }
+        }
+
+
         if(dataModel.getNoise() == null) dataModel.setNoise("--");
         if(dataModel.getPmten() == null )dataModel.setPmten("--");
         if(dataModel.getPmtwo() == null) dataModel.setPmtwo("--");
