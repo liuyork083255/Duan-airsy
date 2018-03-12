@@ -18,7 +18,7 @@
     </select>
 
     <select id="selectDataById" resultType="liu.york.model.DataModel">
-        SELECT * FROM air_data WHERE snid=#{dataid} limit #{num1,jdbcType=BIT},#{num2,jdbcType=BIT} ORDER BY `datetime` desc
+        SELECT * FROM air_data WHERE snid=#{dataid} ORDER BY `datetime` desc limit #{num1,jdbcType=BIT},#{num2,jdbcType=BIT}
     </select>
 
 </mapper>
